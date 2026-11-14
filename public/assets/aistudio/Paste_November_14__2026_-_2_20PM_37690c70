@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HumanPro - Gestión RRHH</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+  *{font-family:'Inter',sans-serif}
+  .sidebar-link.active{background:#4F46E5;color:white}
+  .sidebar-link.active svg{color:white}
+  .card{border:1px solid #E2E8F0;border-radius:16px;background:white;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+  .badge-activo{background:#DCFCE7;color:#166534}
+  .badge-pendiente{background:#FEF3C7;color:#92400E}
+  .badge-inactivo{background:#FEE2E2;color:#991B1B}
+  .toast{animation:slide .3s ease}
+  @keyframes slide{from{transform:translateX(100%)}to{transform:translateX(0)}}
+  input,select,textarea{outline:none}
+  input:focus,select:focus,textarea:focus{border-color:#4F46E5!important;box-shadow:0 0 0 3px #EEF2FF}
+</style>
+</head>
+<body class="bg-[#F8FAFC] text-slate-800">
+
+<!-- LOGIN -->
+<div id="view-login" class="min-h-screen flex">
+  <div class="hidden lg:flex w-[55%] bg-[#0F172A] text-white flex-col justify-between p-10 relative overflow-hidden">
+    <div class="absolute -right-20 -top-20 w-96 h-96 bg-[#4F46E5] rounded-full opacity-30 blur-3xl"></div>
+    <div class="flex items-center gap-3 relative"><div class="w-11 h-11 bg-[#4F46E5] rounded-xl flex items-center justify-center text-2xl">👥</div><div><p class="font-bold text-xl leading-none">HumanPro</p><p class="text-xs text-slate-400">Sistema de Recursos Humanos</p></div></div>
+    <div class="relative"><h1 class="text-4xl font-extrabold leading-tight">Gestiona tu equipo<br>como una empresa<br><span class="text-[#818CF8]">grande.</span></h1><p class="text-slate-400 mt-4 max-w-md">Empleados, departamentos, cargos, asistencia y novedades en un solo lugar.</p>
+    <div class="flex gap-4 mt-8"><div class="bg-white/10 rounded-2xl p-4"><p class="text-2xl font-bold">128</p><p class="text-xs text-slate-400">Empleados activos</p></div><div class="bg-white/10 rounded-2xl p-4"><p class="text-2xl font-bold">98%</p><p class="text-xs text-slate-400">Asistencia hoy</p></div><div class="bg-white/10 rounded-2xl p-4"><p class="text-2xl font-bold">4</p><p class="text-xs text-slate-400">Departamentos</p></div></div></div>
+    <p class="text-xs text-slate-500 relative">© 2026 HumanPro - Datos de demostración</p>
+  </div>
+  <div class="flex-1 flex items-center justify-center p-6">
+    <div class="w-full max-w-md">
+      <div class="lg:hidden flex items-center gap-2 mb-8"><div class="w-10 h-10 bg-[#4F46E5] rounded-xl flex items-center justify-center text-xl">👥</div><b>HumanPro</b></div>
+      <h2 class="text-3xl font-extrabold">Bienvenido 👋</h2><p class="text-slate-500 mt-1 mb-6">Inicia sesión para continuar</p>
+      <label class="text-sm font-medium">Correo</label><input id="login-email" value="admin@humanpro.com" class="w-full border rounded-xl px-4 py-3 mt-1 mb-4">
+      <label class="text-sm font-medium">Contraseña</label><input id="login-pass" type="password" value="123456" class="w-full border rounded-xl px-4 py-3 mt-1 mb-2">
+      <p class="text-xs text-slate-400 mb-4">Demo: admin@humanpro.com / 123456</p>
+      <button onclick="login()" class="w-full bg-[#4F46E5] hover:bg-[#4338CA] text-white font-semibold py-3.5 rounded-xl">Ingresar a HumanPro →</button>
+      <div class="flex items-center gap-2 mt-6 text-xs text-slate-400"><input type="checkbox" checked> Recuérdame <span class="ml-auto text-[#4F46E5] font-medium cursor-pointer">¿Olvidaste tu contraseña?</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="view-app" class="hidden min-h-screen flex">
+  <!-- SIDEBAR -->
+  <aside class="w-[260px] bg-white border-r hidden md:flex flex-col fixed h-screen z-20">
+    <div class="p-5 flex items-center gap-3"><div class="w-10 h-10 bg-[#4F46E5] rounded-xl flex items-center justify-center text-xl">👥</div><div><p class="font-bold leading-none">HumanPro</p><p class="text-[11px] text-slate-400">RRHH • v2.0</p></div><span class="ml-auto bg-emerald-100 text-emerald-700 text-[10px] font-bold px-2 py-1 rounded-full">PRO</span></div>
+    <nav class="px-3 flex-1 space-y-1 text-sm font-medium">
+      <p class="px-3 pt-2 pb-1 text-[11px] tracking-wider text-slate-400 font-bold">PRINCIPAL</p>
+      <button onclick="show('dashboard',this)" class="sidebar-link active w-full flex gap-3 items-center px-3 py-2.5 rounded-xl text-slate-600">📊 Dashboard</button>
+      <button onclick="show('empleados',this)" class="sidebar-link w-full flex gap-3 items-center px-3 py-2.5 rounded-xl text-slate-600">👤 Empleados</button>
+      <button onclick="show('departamentos',this)" class="sidebar-link w-full flex gap-3 items-center px-3 py-2.5 rounded-xl text-slate-600">🏢 Departamentos</button>
+      <button onclick="show('cargos',this)" class="sidebar-link w-full flex gap-3 items-center px-3 py-2.5 rounded-xl text-slate-600">💼 Cargos</button>
+      <p class="px-3 pt-4 pb-1 text-[11px] tracking-wider text-slate-400 font-bold">OPERACIÓN</p>
+      <button onclick="show('asistencia',this)" class="sidebar-link w-full flex gap-3 items-center px-3 py-2.5 rounded-xl text-slate-600">✅ Asistencia <span class="ml-auto bg-amber-100 text-amber-700 text-[11px] px-2 rounded-full font-bold">2</span></button>
+      <button onclick="show('novedades',this)" class="sidebar-link w-full flex gap-3 items-center px-3 py-2.5 rounded-xl text-slate-600">📢 Novedades</button>
+      <button onclick="show('reportes',this)" class="sidebar-link w-full flex gap-3 items-center px-3 py-2.5 rounded-xl text-slate-600">📈 Reportes</button>
+      <p class="px-3 pt-4 pb-1 text-[11px] tracking-wider text-slate-400 font-bold">SISTEMA</p>
+      <button onclick="show('configuracion',this)" class="sidebar-link w-full flex gap-3 items-center px-3 py-2.5 rounded-xl text-slate-600">⚙️ Configuración</button>
+    </nav>
+    <div class="p-4 m-3 bg-[#EEF2FF] rounded-2xl"><p class="font-bold text-sm">¿Necesitas ayuda?</p><p class="text-xs text-slate-500">Soporte HumanPro 24/7</p><button class="mt-2 w-full bg-white border py-2 rounded-lg text-sm font-medium">Contactar soporte</button></div>
+    <div class="p-4 border-t flex items-center gap-3"><img src="https://i.pravatar.cc/40?img=12" class="w-10 h-10 rounded-full"><div class="flex-1"><p class="text-sm font-bold leading-none">Administrador</p><p class="text-xs text-slate-400">admin@humanpro.com</p></div><button onclick="logout()" class="text-red-500 text-sm font-medium">Salir</button></div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="flex-1 md:ml-[260px]">
+    <!-- TOPBAR -->
+    <header class="sticky top-0 bg-white/90 backdrop-blur border-b z-10 px-4 md:px-8 py-4 flex items-center gap-3">
+      <button class="md:hidden text-2xl" onclick="document.querySelector('aside').classList.toggle('hidden')">☰</button>
+      <div class="relative flex-1 max-w-md hidden sm:block"><span class="absolute left-3 top-3">🔍</span><input oninput="filtrarEmpleados(this.value)" placeholder="Buscar empleado, cargo, departamento..." class="w-full border rounded-full pl-9 pr-4 py-2.5 bg-[#F8FAFC] text-sm"></div>
+      <div class="ml-auto flex items-center gap-2">
+        <button onclick="showToast('Tienes 3 novedades pendientes por aprobar','warning')" class="relative w-10 h-10 border rounded-full flex items-center justify-center">🔔<span class="absolute top-1 right-1 w-2.5 h-2.5 bg-red-500 rounded-full border-2 border-white"></span></button>
+        <button onclick="show('empleados')" class="hidden sm:flex bg-[#4F46E5] text-white px-4 py-2.5 rounded-full text-sm font-semibold">+ Nuevo Empleado</button>
+        <img src="https://i.pravatar.cc/40?img=12" class="w-10 h-10 rounded-full border-2 border-white shadow">
+      </div>
+    </header>
+
+    <div class="p-4 md:p-8 max-w-[1200px] mx-auto">
+
+      <!-- DASHBOARD -->
+      <section id="page-dashboard">
+        <div class="flex flex-wrap justify-between gap-3"><div><h1 class="text-2xl md:text-3xl font-extrabold">Dashboard RRHH 👋</h1><p class="text-slate-500 text-sm">Resumen general • Hoy es Sábado 14 de Noviembre 2026 • Datos de demostración</p></div><div class="flex gap-2"><select class="border rounded-full px-3 py-2 text-sm bg-white"><option>Últimos 30 días</option><option>Este mes</option></select><button onclick="show('reportes')" class="bg-slate-900 text-white px-4 py-2 rounded-full text-sm font-medium">⬇ Exportar reporte</button></div></div>
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mt-6">
+          <div class="card p-5"><div class="flex justify-between"><span class="w-10 h-10 bg-indigo-100 rounded-xl flex items-center justify-center">👥</span><span class="text-emerald-600 bg-emerald-50 px-2 py-1 rounded-full text-xs font-bold">+12%</span></div><p class="text-3xl font-extrabold mt-3">128</p><p class="text-sm font-medium">Empleados Activos</p><p class="text-xs text-slate-400">12 nuevos este mes</p></div>
+          <div class="card p-5"><div class="flex justify-between"><span class="w-10 h-10 bg-emerald-100 rounded-xl flex items-center justify-center">✅</span><span class="text-emerald-600 bg-emerald-50 px-2 py-1 rounded-full text-xs font-bold">98%</span></div><p class="text-3xl font-extrabold mt-3">124</p><p class="text-sm font-medium">Presentes Hoy</p><p class="text-xs text-slate-400">4 ausentes • 2 retardos</p></div>
+          <div class="card p-5"><div class="flex justify-between"><span class="w-10 h-10 bg-amber-100 rounded-xl flex items-center justify-center">🏢</span><span class="text-xs bg-slate-100 px-2 py-1 rounded-full font-bold">4 dept.</span></div><p class="text-3xl font-extrabold mt-3">4</p><p class="text-sm font-medium">Departamentos</p><p class="text-xs text-slate-400">Tecnología es el más grande</p></div>
+          <div class="card p-5"><div class="flex justify-between"><span class="w-10 h-10 bg-rose-100 rounded-xl flex items-center justify-center">📢</span><span class="text-amber-600 bg-amber-50 px-2 py-1 rounded-full text-xs font-bold">Pendiente</span></div><p class="text-3xl font-extrabold mt-3">3</p><p class="text-sm font-medium">Novedades Pendientes</p><p class="text-xs text-slate-400">Requieren aprobación</p></div>
+        </div>
+        <div class="grid lg:grid-cols-5 gap-4 mt-4">
+          <div class="card p-5 lg:col-span-3"><div class="flex justify-between"><h3 class="font-bold">Empleados por Departamento</h3><span class="text-xs bg-indigo-50 text-indigo-600 px-2 py-1 rounded-full font-bold">2026</span></div><canvas id="chartDep" class="mt-4" height="140"></canvas></div>
+          <div class="card p-5 lg:col-span-2"><h3 class="font-bold">Accesos rápidos</h3><div class="grid grid-cols-2 gap-3 mt-4"><button onclick="openModalEmpleado()" class="border rounded-xl p-4 text-left hover:border-indigo-500"><span class="text-xl">➕</span><p class="font-semibold text-sm mt-1">Crear empleado</p><p class="text-xs text-slate-400">Nuevo registro</p></button><button onclick="show('asistencia')" class="border rounded-xl p-4 text-left hover:border-indigo-500"><span class="text-xl">🕒</span><p class="font-semibold text-sm mt-1">Registrar asistencia</p><p class="text-xs text-slate-400">Entrada / Salida</p></button><button onclick="show('novedades')" class="border rounded-xl p-4 text-left hover:border-indigo-500"><span class="text-xl">📝</span><p class="font-semibold text-sm mt-1">Nueva novedad</p><p class="text-xs text-slate-400">Vacaciones, permiso</p></button><button onclick="show('reportes')" class="border rounded-xl p-4 text-left hover:border-indigo-500"><span class="text-xl">📊</span><p class="font-semibold text-sm mt-1">Ver reportes</p><p class="text-xs text-slate-400">Descargar PDF</p></button></div></div>
+        </div>
+        <div class="card mt-4 overflow-hidden"><div class="p-5 flex justify-between"><h3 class="font-bold">Actividad reciente</h3><button class="text-indigo-600 text-sm font-medium">Ver todo →</button></div><div id="actividad" class="divide-y text-sm"></div></div>
+      </section>
+
+      <!-- EMPLEADOS -->
+      <section id="page-empleados" class="hidden">
+        <div class="flex flex-wrap justify-between gap-3"><div><p class="text-xs text-slate-400">HumanPro / Empleados</p><h1 class="text-2xl font-extrabold">Empleados</h1><p class="text-sm text-slate-500">Gestiona 128 empleados • Filtra, crea, edita y consulta</p></div><button onclick="openModalEmpleado()" class="bg-[#4F46E5] text-white px-5 py-3 rounded-full font-semibold text-sm">+ Nuevo Empleado</button></div>
+        <div class="card p-4 mt-5 flex flex-wrap gap-3"><input id="buscadorEmp" oninput="filtrarEmpleados(this.value)" placeholder="🔍 Buscar por nombre, documento..." class="border rounded-full px-4 py-2.5 flex-1 min-w-[200px]"><select id="filtroDep" onchange="filtrarEmpleados()" class="border rounded-full px-3 py-2.5 text-sm"><option value="">Todos los departamentos</option><option>Tecnología</option><option>Talento Humano</option><option>Ventas</option><option>Finanzas</option></select><select id="filtroEstado" onchange="filtrarEmpleados()" class="border rounded-full px-3 py-2.5 text-sm"><option value="">Todos los estados</option><option>Activo</option><option>Inactivo</option></select></div>
+        <div class="card mt-4 overflow-x-auto"><table class="w-full text-sm min-w-[700px]"><thead class="bg-slate-50 text-left text-xs text-slate-500"><tr><th class="p-4">EMPLEADO</th><th class="p-4">CARGO</th><th class="p-4">DEPARTAMENTO</th><th class="p-4">INGRESO</th><th class="p-4">ESTADO</th><th class="p-4">ACCIONES</th></tr></thead><tbody id="tablaEmpleados"></tbody></table><div class="p-4 flex justify-between text-xs text-slate-400"><span>Mostrando 1-8 de 128</span><span class="flex gap-1"><button class="border px-3 py-1 rounded-lg">‹</button><button class="bg-[#4F46E5] text-white px-3 py-1 rounded-lg">1</button><button class="border px-3 py-1 rounded-lg">2</button><button class="border px-3 py-1 rounded-lg">›</button></span></div></div>
+      </section>
+
+      <!-- DEPARTAMENTOS -->
+      <section id="page-departamentos" class="hidden">
+        <h1 class="text-2xl font-extrabold">Departamentos</h1><p class="text-sm text-slate-500">Organiza tu empresa por áreas</p>
+        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-4 mt-5" id="gridDept"></div>
+        <div class="card p-5 mt-4"><h3 class="font-bold">Crear departamento</h3><div class="flex flex-wrap gap-3 mt-3"><input id="nuevoDepNombre" placeholder="Nombre del departamento" class="border rounded-xl px-4 py-3 flex-1"><input id="nuevoDepDesc" placeholder="Descripción" class="border rounded-xl px-4 py-3 flex-1"><button onclick="crearDepartamento()" class="bg-[#4F46E5] text-white px-5 py-3 rounded-xl font-semibold">Crear</button></div></div>
+      </section>
+
+      <!-- CARGOS -->
+      <section id="page-cargos" class="hidden">
+        <h1 class="text-2xl font-extrabold">Cargos</h1><p class="text-sm text-slate-500">Define roles y salarios base</p>
+        <div class="card mt-5 overflow-x-auto"><table class="w-full text-sm min-w-[600px]"><thead class="bg-slate-50 text-left text-xs text-slate-500"><tr><th class="p-4">CARGO</th><th class="p-4">DEPARTAMENTO</th><th class="p-4">SALARIO BASE</th><th class="p-4">EMPLEADOS</th><th class="p-4">ACCIÓN</th></tr></thead><tbody id="tablaCargos"></tbody></table></div>
+        <div class="card p-5 mt-4"><h3 class="font-bold">Nuevo cargo</h3><div class="flex flex-wrap gap-3 mt-3"><input id="nuevoCargo" placeholder="Ej: Desarrollador Senior" class="border rounded-xl px-4 py-3 flex-1"><select id="nuevoCargoDep" class="border rounded-xl px-3 py-3"><option>Tecnología</option><option>Ventas</option><option>Finanzas</option><option>Talento Humano</option></select><input id="nuevoCargoSalario" type="number" placeholder="Salario base" class="border rounded-xl px-4 py-3 w-40"><button onclick="crearCargo()" class="bg-[#4F46E5] text-white px-5 py-3 rounded-xl font-semibold">Guardar</button></div></div>
+      </section>
+
+      <!-- ASISTENCIA -->
+      <section id="page-asistencia" class="hidden">
+        <h1 class="text-2xl font-extrabold">Registro de Asistencia</h1><p class="text-sm text-slate-500">Hoy • Sábado 14 Nov 2026 • 08:00 AM - 06:00 PM</p>
+        <div class="grid grid-cols-3 gap-4 mt-5"><div class="card p-5 text-center"><p class="text-3xl font-extrabold text-emerald-600">124</p><p class="text-sm">Presentes</p></div><div class="card p-5 text-center"><p class="text-3xl font-extrabold text-amber-600">2</p><p class="text-sm">Retardos</p></div><div class="card p-5 text-center"><p class="text-3xl font-extrabold text-red-600">2</p><p class="text-sm">Ausentes</p></div></div>
+        <div class="card mt-4 overflow-x-auto"><table class="w-full text-sm min-w-[600px]"><thead class="bg-slate-50 text-left text-xs text-slate-500"><tr><th class="p-4">EMPLEADO</th><th class="p-4">ENTRADA</th><th class="p-4">SALIDA</th><th class="p-4">ESTADO</th><th class="p-4">MARCAR</th></tr></thead><tbody id="tablaAsistencia"></tbody></table></div>
+        <button onclick="guardarAsistencia()" class="mt-4 w-full bg-[#4F46E5] text-white py-3.5 rounded-xl font-semibold">💾 Guardar Asistencia del Día</button>
+      </section>
+
+      <!-- NOVEDADES -->
+      <section id="page-novedades" class="hidden">
+        <h1 class="text-2xl font-extrabold">Novedades Laborales</h1><p class="text-sm text-slate-500">Vacaciones, incapacidades, permisos y bonificaciones</p>
+        <div class="card p-5 mt-5"><h3 class="font-bold">Registrar novedad</h3><div class="grid md:grid-cols-4 gap-3 mt-3"><select id="novEmp" class="border rounded-xl px-3 py-3"></select><select id="novTipo" class="border rounded-xl px-3 py-3"><option>Vacaciones</option><option>Incapacidad</option><option>Permiso</option><option>Llamado de atención</option><option>Bonificación</option><option>Ascenso</option></select><input id="novDesc" placeholder="Descripción..." class="border rounded-xl px-4 py-3 md:col-span-1"><button onclick="crearNovedad()" class="bg-[#4F46E5] text-white px-5 py-3 rounded-xl font-semibold">Registrar</button></div></div>
+        <div class="card mt-4 overflow-x-auto"><table class="w-full text-sm min-w-[600px]"><thead class="bg-slate-50 text-left text-xs text-slate-500"><tr><th class="p-4">EMPLEADO</th><th class="p-4">TIPO</th><th class="p-4">DESCRIPCIÓN</th><th class="p-4">ESTADO</th><th class="p-4">ACCIÓN</th></tr></thead><tbody id="tablaNovedades"></tbody></table></div>
+      </section>
+
+      <!-- REPORTES -->
+      <section id="page-reportes" class="hidden">
+        <h1 class="text-2xl font-extrabold">Reportes Administrativos</h1><p class="text-sm text-slate-500">Estadísticas y exportación</p>
+        <div class="grid md:grid-cols-2 gap-4 mt-5"><div class="card p-5"><h3 class="font-bold">Asistencia semanal</h3><canvas id="chartAsist" height="150"></canvas></div><div class="card p-5"><h3 class="font-bold">Novedades por tipo</h3><canvas id="chartNov" height="150"></canvas></div></div>
+        <div class="grid md:grid-cols-3 gap-4 mt-4"><button onclick="showToast('Reporte de empleados generado en PDF','success')" class="card p-5 text-left hover:border-indigo-500"><p class="text-2xl">📄</p><p class="font-bold mt-2">Reporte de Empleados</p><p class="text-xs text-slate-400">PDF • Excel • 128 registros</p></button><button onclick="showToast('Reporte de asistencia generado','success')" class="card p-5 text-left hover:border-indigo-500"><p class="text-2xl">🕒</p><p class="font-bold mt-2">Reporte de Asistencia</p><p class="text-xs text-slate-400">Del mes actual</p></button><button onclick="showToast('Reporte de nómina generado','success')" class="card p-5 text-left hover:border-indigo-500"><p class="text-2xl">💰</p><p class="font-bold mt-2">Reporte de Nómina</p><p class="text-xs text-slate-400">Salarios y novedades</p></button></div>
+      </section>
+
+      <!-- CONFIG -->
+      <section id="page-configuracion" class="hidden">
+        <h1 class="text-2xl font-extrabold">Configuración</h1><p class="text-sm text-slate-500">Parámetros generales del sistema</p>
+        <div class="card p-6 mt-5 max-w-2xl"><h3 class="font-bold">Empresa</h3><div class="grid md:grid-cols-2 gap-3 mt-4"><div><label class="text-sm">Nombre empresa</label><input value="HumanPro S.A.S" class="w-full border rounded-xl px-4 py-3 mt-1"></div><div><label class="text-sm">NIT</label><input value="900.123.456-7" class="w-full border rounded-xl px-4 py-3 mt-1"></div><div><label class="text-sm">Horario entrada</label><input type="time" value="08:00" class="w-full border rounded-xl px-4 py-3 mt-1"></div><div><label class="text-sm">Horario salida</label><input type="time" value="18:00" class="w-full border rounded-xl px-4 py-3 mt-1"></div></div><button onclick="showToast('Configuración guardada correctamente','success')" class="mt-5 bg-[#4F46E5] text-white px-6 py-3 rounded-xl font-semibold">Guardar cambios</button></div>
+      </section>
+
+    </div>
+  </main>
+</div>
+
+<!-- MODAL EMPLEADO -->
+<div id="modalEmpleado" class="hidden fixed inset-0 bg-black/50 z-50 flex items-end md:items-center justify-center p-0 md:p-6">
+  <div class="bg-white w-full max-w-2xl rounded-t-3xl md:rounded-3xl max-h-[92vh] overflow-y-auto">
+    <div class="p-6 flex justify-between sticky top-0 bg-white border-b"><div><h2 class="text-xl font-extrabold" id="modalTitle">Nuevo Empleado</h2><p class="text-xs text-slate-400">Los campos con * son obligatorios</p></div><button onclick="closeModalEmpleado()" class="w-9 h-9 bg-slate-100 rounded-full">✕</button></div>
+    <div class="p-6 grid md:grid-cols-2 gap-4">
+      <div><label class="text-sm font-medium">Documento *</label><input id="f-doc" placeholder="Ej: 1098765432" class="w-full border rounded-xl px-4 py-3 mt-1"></div>
+      <div><label class="text-sm font-medium">Correo *</label><input id="f-email" placeholder="correo@empresa.com" class="w-full border rounded-xl px-4 py-3 mt-1"></div>
+      <div><label class="text-sm font-medium">Nombres *</label><input id="f-nombres" placeholder="Juan" class="w-full border rounded-xl px-4 py-3 mt-1"></div>
+      <div><label class="text-sm font-medium">Apellidos *</label><input id="f-apellidos" placeholder="Pérez" class="w-full border rounded-xl px-4 py-3 mt-1"></div>
+      <div><label class="text-sm font-medium">Teléfono</label><input id="f-tel" placeholder="300 123 4567" class="w-full border rounded-xl px-4 py-3 mt-1"></div>
+      <div><label class="text-sm font-medium">Fecha ingreso</label><input id="f-fecha" type="date" value="2026-11-14" class="w-full border rounded-xl px-4 py-3 mt-1"></div>
+      <div><label class="text-sm font-medium">Departamento</label><select id="f-dep" class="w-full border rounded-xl px-3 py-3 mt-1"><option>Tecnología</option><option>Talento Humano</option><option>Ventas</option><option>Finanzas</option></select></div>
+      <div><label class="text-sm font-medium">Cargo</label><select id="f-cargo" class="w-full border rounded-xl px-3 py-3 mt-1"><option>Desarrollador Junior</option><option>Analista RRHH</option><option>Ejecutivo Ventas</option><option>Contador</option></select></div>
+      <div><label class="text-sm font-medium">Tipo contrato</label><select id="f-contrato" class="w-full border rounded-xl px-3 py-3 mt-1"><option>Indefinido</option><option>Fijo</option><option>Prestación servicios</option><option>Aprendizaje</option></select></div>
+      <div><label class="text-sm font-medium">Salario</label><input id="f-salario" type="number" value="2500000" class="w-full border rounded-xl px-4 py-3 mt-1"></div>
+    </div>
+    <div class="p-6 border-t flex gap-3"><button onclick="closeModalEmpleado()" class="flex-1 border py-3 rounded-xl font-semibold">Cancelar</button><button onclick="guardarEmpleado()" class="flex-1 bg-[#4F46E5] text-white py-3 rounded-xl font-semibold">💾 Guardar Empleado</button></div>
+  </div>
+</div>
+
+<!-- MODAL DETALLE -->
+<div id="modalDetalle" class="hidden fixed inset-0 bg-black/50 z-50 flex items-end md:items-center justify-center p-0 md:p-6">
+  <div class="bg-white w-full max-w-lg rounded-t-3xl md:rounded-3xl p-6">
+    <div class="flex justify-between"><h2 class="font-extrabold text-xl">Detalle del Empleado</h2><button onclick="document.getElementById('modalDetalle').classList.add('hidden')" class="w-9 h-9 bg-slate-100 rounded-full">✕</button></div>
+    <div id="detalleContent" class="mt-4"></div>
+    <button onclick="document.getElementById('modalDetalle').classList.add('hidden')" class="mt-5 w-full bg-slate-900 text-white py-3 rounded-xl font-semibold">Cerrar</button>
+  </div>
+</div>
+
+<!-- TOASTS -->
+<div id="toasts" class="fixed top-4 right-4 z-[100] space-y-2 w-[320px] max-w-[calc(100vw-2rem)]"></div>
+
+<script>
+let empleados = [
+  {id:1, doc:'1098765432', nombres:'María', apellidos:'González', email:'maria@humanpro.com', cargo:'Desarrollador Senior', dep:'Tecnología', ingreso:'2023-02-15', salario:4200000, estado:'Activo', foto:'https://i.pravatar.cc/80?img=47'},
+  {id:2, doc:'1098765433', nombres:'Carlos', apellidos:'Rodríguez', email:'carlos@humanpro.com', cargo:'Analista RRHH', dep:'Talento Humano', ingreso:'2024-01-10', salario:2600000, estado:'Activo', foto:'https://i.pravatar.cc/80?img=12'},
+  {id:3, doc:'1098765434', nombres:'Ana', apellidos:'Martínez', email:'ana@humanpro.com', cargo:'Ejecutivo Ventas', dep:'Ventas', ingreso:'2024-05-20', salario:2400000, estado:'Activo', foto:'https://i.pravatar.cc/80?img=32'},
+  {id:4, doc:'1098765435', nombres:'José', apellidos:'Pérez', email:'jose@humanpro.com', cargo:'Contador', dep:'Finanzas', ingreso:'2022-09-01', salario:3200000, estado:'Activo', foto:'https://i.pravatar.cc/80?img=59'},
+  {id:5, doc:'1098765436', nombres:'Laura', apellidos:'López', email:'laura@humanpro.com', cargo:'Desarrollador Junior', dep:'Tecnología', ingreso:'2025-03-01', salario:2500000, estado:'Activo', foto:'https://i.pravatar.cc/80?img=45'},
+  {id:6, doc:'1098765437', nombres:'Diego', apellidos:'Torres', email:'diego@humanpro.com', cargo:'Diseñador UX', dep:'Tecnología', ingreso:'2024-08-12', salario:3000000, estado:'Inactivo', foto:'https://i.pravatar.cc/80?img=68'},
+];
+let departamentos = [
+  {nombre:'Tecnología', desc:'Desarrollo y soporte', total:42, color:'bg-indigo-100', icon:'💻'},
+  {nombre:'Talento Humano', desc:'Gestión de personal', total:12, color:'bg-emerald-100', icon:'👥'},
+  {nombre:'Ventas', desc:'Comercial y clientes', total:38, color:'bg-amber-100', icon:'📈'},
+  {nombre:'Finanzas', desc:'Contabilidad y nómina', total:16, color:'bg-rose-100', icon:'💰'},
+];
+let cargos = [
+  {nombre:'Desarrollador Senior', dep:'Tecnología', salario:4200000, total:12},
+  {nombre:'Analista RRHH', dep:'Talento Humano', salario:2600000, total:5},
+  {nombre:'Ejecutivo Ventas', dep:'Ventas', salario:2400000, total:22},
+  {nombre:'Contador', dep:'Finanzas', salario:3200000, total:4},
+];
+let novedades = [
+  {emp:'María González', tipo:'Vacaciones', desc:'Vacaciones 15 días - Diciembre', estado:'Pendiente'},
+  {emp:'Carlos Rodríguez', tipo:'Permiso', desc:'Permiso médico 2 días', estado:'Aprobada'},
+  {emp:'Ana Martínez', tipo:'Bonificación', desc:'Bonificación por cumplimiento metas', estado:'Pendiente'},
+];
+
+function login(){
+  if(document.getElementById('login-email').value==='admin@humanpro.com'){
+    document.getElementById('view-login').classList.add('hidden');
+    document.getElementById('view-app').classList.remove('hidden');
+    renderAll(); initCharts(); showToast('Bienvenido a HumanPro, Administrador','success');
+  } else showToast('Correo o contraseña incorrectos','error');
+}
+function logout(){ document.getElementById('view-app').classList.add('hidden'); document.getElementById('view-login').classList.remove('hidden'); }
+function show(page, btn){
+  document.querySelectorAll('section[id^="page-"]').forEach(s=>s.classList.add('hidden'));
+  document.getElementById('page-'+page).classList.remove('hidden');
+  if(btn){ document.querySelectorAll('.sidebar-link').forEach(b=>b.classList.remove('active')); btn.classList.add('active'); }
+  window.scrollTo(0,0);
+}
+function showToast(msg, type='success'){
+  const colors={success:'border-emerald-500 bg-emerald-50 text-emerald-800', error:'border-red-500 bg-red-50 text-red-800', warning:'border-amber-500 bg-amber-50 text-amber-800', info:'border-blue-500 bg-blue-50 text-blue-800'};
+  const icons={success:'✅', error:'❌', warning:'⚠️', info:'ℹ️'};
+  const div=document.createElement('div');
+  div.className=`toast flex gap-3 p-4 rounded-2xl border-l-4 shadow-xl ${colors[type]} text-sm font-medium`;
+  div.innerHTML=`<span>${icons[type]}</span><span class="flex-1">${msg}</span><button onclick="this.parentElement.remove()">✕</button>`;
+  document.getElementById('toasts').appendChild(div);
+  setTimeout(()=>div.remove(),4000);
+}
+function filtrarEmpleados(q){
+  const texto=(q ?? document.getElementById('buscadorEmp').value||'').toLowerCase();
+  const dep=document.getElementById('filtroDep')?.value||'';
+  const est=document.getElementById('filtroEstado')?.value||'';
+  const filtrados=empleados.filter(e=> (e.nombres+' '+e.apellidos+' '+e.doc).toLowerCase().includes(texto) && (!dep||e.dep===dep) && (!est||e.estado===est));
+  renderEmpleados(filtrados);
+}
+function renderEmpleados(lista=empleados){
+  document.getElementById('tablaEmpleados').innerHTML=lista.map(e=>`
+    <tr class="border-t hover:bg-slate-50"><td class="p-4"><div class="flex gap-3 items-center"><img src="${e.foto}" class="w-10 h-10 rounded-full"><div><p class="font-semibold">${e.nombres} ${e.apellidos}</p><p class="text-xs text-slate-400">${e.email} • ${e.doc}</p></div></div></td>
+    <td class="p-4">${e.cargo}</td><td class="p-4">${e.dep}</td><td class="p-4">${e.ingreso}</td>
+    <td class="p-4"><span class="px-2.5 py-1 rounded-full text-xs font-bold ${e.estado==='Activo'?'badge-activo':'badge-inactivo'}">${e.estado}</span></td>
+    <td class="p-4"><div class="flex gap-1"><button onclick="verDetalle(${e.id})" class="w-8 h-8 bg-slate-100 rounded-lg">👁️</button><button onclick="editarEmpleado(${e.id})" class="w-8 h-8 bg-indigo-100 rounded-lg">✏️</button><button onclick="eliminarEmpleado(${e.id})" class="w-8 h-8 bg-red-100 rounded-lg">🗑️</button></div></td></tr>`).join('') || '<tr><td colspan="6" class="p-8 text-center text-slate-400">No se encontraron empleados. Intenta con otro filtro.</td></tr>';
+}
+function renderDept(){
+  document.getElementById('gridDept').innerHTML=departamentos.map(d=>`<div class="card p-5"><div class="w-12 h-12 ${d.color} rounded-2xl flex items-center justify-center text-2xl">${d.icon}</div><h3 class="font-bold mt-3">${d.nombre}</h3><p class="text-xs text-slate-400">${d.desc}</p><p class="text-2xl font-extrabold mt-3">${d.total} <span class="text-xs font-normal text-slate-400">empleados</span></p><div class="h-2 bg-slate-100 rounded-full mt-3"><div class="h-2 bg-[#4F46E5] rounded-full" style="width:${d.total}%"></div></div></div>`).join('');
+}
+function renderCargos(){ document.getElementById('tablaCargos').innerHTML=cargos.map(c=>`<tr class="border-t"><td class="p-4 font-semibold">${c.nombre}</td><td class="p-4">${c.dep}</td><td class="p-4">$${c.salario.toLocaleString()}</td><td class="p-4">${c.total}</td><td class="p-4"><button class="text-indigo-600 font-medium">Editar</button></td></tr>`).join(''); }
+function renderAsistencia(){
+  document.getElementById('tablaAsistencia').innerHTML=empleados.map(e=>`<tr class="border-t"><td class="p-4"><div class="flex gap-3 items-center"><img src="${e.foto}" class="w-9 h-9 rounded-full"><span class="font-medium">${e.nombres} ${e.apellidos}</span></div></td><td class="p-4">08:02 AM</td><td class="p-4">—</td><td class="p-4"><span class="badge-activo px-2 py-1 rounded-full text-xs font-bold">Presente</span></td><td class="p-4"><select class="border rounded-lg px-2 py-1.5 text-xs"><option>Presente</option><option>Ausente</option><option>Retardo</option><option>Permiso</option></select></td></tr>`).join('');
+}
+function renderNovedades(){
+  document.getElementById('tablaNovedades').innerHTML=novedades.map((n,i)=>`<tr class="border-t"><td class="p-4 font-medium">${n.emp}</td><td class="p-4"><span class="bg-slate-100 px-2 py-1 rounded-full text-xs font-bold">${n.tipo}</span></td><td class="p-4">${n.desc}</td><td class="p-4"><span class="px-2 py-1 rounded-full text-xs font-bold ${n.estado==='Pendiente'?'badge-pendiente':'badge-activo'}">${n.estado}</span></td><td class="p-4 flex gap-1"><button onclick="aprobarNov(${i})" class="bg-emerald-100 px-3 py-1.5 rounded-lg text-xs font-bold text-emerald-700">Aprobar</button><button onclick="rechazarNov(${i})" class="bg-red-100 px-3 py-1.5 rounded-lg text-xs font-bold text-red-700">Rechazar</button></td></tr>`).join('');
+  document.getElementById('novEmp').innerHTML=empleados.map(e=>`<option>${e.nombres} ${e.apellidos}</option>`).join('');
+}
+function renderActividad(){
+  const acts=[['🟢','María González','registró su entrada','Hace 5 min'],['➕','Carlos Rodríguez','creó un nuevo empleado','Hace 18 min'],['📢','Ana Martínez','solicitó vacaciones','Hace 1 hora'],['✅','José Pérez','aprobó novedad de permiso','Hace 2 horas'],['📊','Sistema','generó reporte de asistencia','Ayer']];
+  document.getElementById('actividad').innerHTML=acts.map(a=>`<div class="p-4 flex gap-3 items-center"><span class="text-lg">${a[0]}</span><div class="flex-1"><p class="font-medium">${a[1]} <span class="font-normal text-slate-500">${a[2]}</span></p></div><span class="text-xs text-slate-400">${a[3]}</span></div>`).join('');
+}
+function openModalEmpleado(){ document.getElementById('modalTitle').innerText='Nuevo Empleado'; document.getElementById('modalEmpleado').classList.remove('hidden'); }
+function closeModalEmpleado(){ document.getElementById('modalEmpleado').classList.add('hidden'); }
+function guardarEmpleado(){
+  const nom=document.getElementById('f-nombres').value, ape=document.getElementById('f-apellidos').value, doc=document.getElementById('f-doc').value;
+  if(!nom||!ape||!doc){ showToast('Completa los campos obligatorios *','error'); return; }
+  empleados.unshift({id:Date.now(), doc, nombres:nom, apellidos:ape, email:document.getElementById('f-email').value||'nuevo@humanpro.com', cargo:document.getElementById('f-cargo').value, dep:document.getElementById('f-dep').value, ingreso:document.getElementById('f-fecha').value, salario:parseInt(document.getElementById('f-salario').value||0), estado:'Activo', foto:'https://i.pravatar.cc/80?img=5'});
+  closeModalEmpleado(); renderAll(); show('empleados'); showToast(`Empleado ${nom} ${ape} creado correctamente`,'success');
+}
+function verDetalle(id){
+  const e=empleados.find(x=>x.id===id);
+  document.getElementById('detalleContent').innerHTML=`<div class="flex gap-4 items-center"><img src="${e.foto}" class="w-16 h-16 rounded-2xl"><div><p class="font-extrabold text-lg">${e.nombres} ${e.apellidos}</p><p class="text-sm text-slate-500">${e.cargo} • ${e.dep}</p><span class="badge-activo px-2 py-1 rounded-full text-xs font-bold">${e.estado}</span></div></div><div class="grid grid-cols-2 gap-3 mt-5 text-sm"><div class="bg-slate-50 p-3 rounded-xl"><p class="text-xs text-slate-400">Documento</p><p class="font-semibold">${e.doc}</p></div><div class="bg-slate-50 p-3 rounded-xl"><p class="text-xs text-slate-400">Correo</p><p class="font-semibold">${e.email}</p></div><div class="bg-slate-50 p-3 rounded-xl"><p class="text-xs text-slate-400">Ingreso</p><p class="font-semibold">${e.ingreso}</p></div><div class="bg-slate-50 p-3 rounded-xl"><p class="text-xs text-slate-400">Salario</p><p class="font-semibold">$${e.salario.toLocaleString()}</p></div></div><div class="mt-4"><p class="font-bold text-sm mb-2">Asistencia reciente</p><p class="text-xs text-slate-500">✅ Presente hoy 08:02 AM • ✅ Presente ayer • ⚠️ Retardo hace 3 días</p></div>`;
+  document.getElementById('modalDetalle').classList.remove('hidden');
+}
+function editarEmpleado(id){ const e=empleados.find(x=>x.id===id); document.getElementById('f-nombres').value=e.nombres; document.getElementById('f-apellidos').value=e.apellidos; document.getElementById('f-doc').value=e.doc; document.getElementById('modalTitle').innerText='Editar Empleado'; document.getElementById('modalEmpleado').classList.remove('hidden'); showToast('Editando a '+e.nombres,'info'); }
+function eliminarEmpleado(id){ if(confirm('¿Estás seguro de eliminar este empleado? Esta acción no se puede deshacer.')){ empleados=empleados.filter(x=>x.id!==id); renderEmpleados(); showToast('Empleado eliminado','warning'); } }
+function crearDepartamento(){ const n=document.getElementById('nuevoDepNombre').value; if(!n) return showToast('Escribe el nombre del departamento','error'); departamentos.push({nombre:n, desc:document.getElementById('nuevoDepDesc').value||'Nuevo departamento', total:0, color:'bg-indigo-100', icon:'🏢'}); renderDept(); showToast('Departamento '+n+' creado','success'); }
+function crearCargo(){ const n=document.getElementById('nuevoCargo').value; if(!n) return showToast('Escribe el nombre del cargo','error'); cargos.push({nombre:n, dep:document.getElementById('nuevoCargoDep').value, salario:parseInt(document.getElementById('nuevoCargoSalario').value||0), total:0}); renderCargos(); showToast('Cargo '+n+' creado','success'); }
+function crearNovedad(){ novedades.unshift({emp:document.getElementById('novEmp').value, tipo:document.getElementById('novTipo').value, desc:document.getElementById('novDesc').value||'Sin descripción', estado:'Pendiente'}); renderNovedades(); showToast('Novedad registrada correctamente','success'); }
+function aprobarNov(i){ novedades[i].estado='Aprobada'; renderNovedades(); showToast('Novedad aprobada','success'); }
+function rechazarNov(i){ novedades[i].estado='Rechazada'; renderNovedades(); showToast('Novedad rechazada','warning'); }
+function guardarAsistencia(){ showToast('Asistencia del día guardada correctamente','success'); }
+function renderAll(){ renderEmpleados(); renderDept(); renderCargos(); renderAsistencia(); renderNovedades(); renderActividad(); }
+let chartsInit=false;
+function initCharts(){
+  if(chartsInit) return; chartsInit=true;
+  new Chart(document.getElementById('chartDep'),{type:'bar',data:{labels:['Tecnología','Ventas','Finanzas','Talento Humano'],datasets:[{data:[42,38,16,12],backgroundColor:'#4F46E5',borderRadius:8}]},options:{plugins:{legend:{display:false}},scales:{y:{beginAtZero:true}}}});
+  const ctx=document.getElementById('chartAsist'); if(ctx) new Chart(ctx,{type:'line',data:{labels:['Lun','Mar','Mié','Jue','Vie','Sáb'],datasets:[{label:'Presentes',data:[126,128,125,127,124,124],borderColor:'#4F46E5',tension:.4,fill:true,backgroundColor:'rgba(79,70,229,.1)'}]},options:{plugins:{legend:{display:false}}}});
+  const ctx2=document.getElementById('chartNov'); if(ctx2) new Chart(ctx2,{type:'doughnut',data:{labels:['Vacaciones','Permiso','Incapacidad','Bonificación'],datasets:[{data:[12,8,5,4],backgroundColor:['#4F46E5','#10B981','#F59E0B','#EC4899']}]}});
+}
+renderAll();
+</script>
+</body>
+</html>

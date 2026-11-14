@@ -1,0 +1,226 @@
+---
+name: Orbital Command
+colors:
+  surface: '#0f131d'
+  surface-dim: '#0f131d'
+  surface-bright: '#353944'
+  surface-container-lowest: '#0a0e18'
+  surface-container-low: '#171b26'
+  surface-container: '#1c1f2a'
+  surface-container-high: '#262a35'
+  surface-container-highest: '#313540'
+  on-surface: '#dfe2f1'
+  on-surface-variant: '#c7c4d7'
+  inverse-surface: '#dfe2f1'
+  inverse-on-surface: '#2c303b'
+  outline: '#908fa0'
+  outline-variant: '#464554'
+  surface-tint: '#c0c1ff'
+  primary: '#c0c1ff'
+  on-primary: '#1000a9'
+  primary-container: '#8083ff'
+  on-primary-container: '#0d0096'
+  inverse-primary: '#494bd6'
+  secondary: '#4cd7f6'
+  on-secondary: '#003640'
+  secondary-container: '#03b5d3'
+  on-secondary-container: '#00424e'
+  tertiary: '#4edea3'
+  on-tertiary: '#003824'
+  tertiary-container: '#00885d'
+  on-tertiary-container: '#000703'
+  error: '#ffb4ab'
+  on-error: '#690005'
+  error-container: '#93000a'
+  on-error-container: '#ffdad6'
+  primary-fixed: '#e1e0ff'
+  primary-fixed-dim: '#c0c1ff'
+  on-primary-fixed: '#07006c'
+  on-primary-fixed-variant: '#2f2ebe'
+  secondary-fixed: '#acedff'
+  secondary-fixed-dim: '#4cd7f6'
+  on-secondary-fixed: '#001f26'
+  on-secondary-fixed-variant: '#004e5c'
+  tertiary-fixed: '#6ffbbe'
+  tertiary-fixed-dim: '#4edea3'
+  on-tertiary-fixed: '#002113'
+  on-tertiary-fixed-variant: '#005236'
+  background: '#0f131d'
+  on-background: '#dfe2f1'
+  surface-variant: '#313540'
+typography:
+  display-lg:
+    fontFamily: Space Grotesk
+    fontSize: 3rem
+    fontWeight: '700'
+    lineHeight: 3.5rem
+    letterSpacing: -0.04em
+  display-lg-mobile:
+    fontFamily: Space Grotesk
+    fontSize: 2rem
+    fontWeight: '700'
+    lineHeight: 2.5rem
+    letterSpacing: -0.03em
+  headline-lg:
+    fontFamily: Space Grotesk
+    fontSize: 2rem
+    fontWeight: '600'
+    lineHeight: 2.5rem
+    letterSpacing: -0.03em
+  headline-lg-mobile:
+    fontFamily: Space Grotesk
+    fontSize: 1.5rem
+    fontWeight: '600'
+    lineHeight: 2rem
+    letterSpacing: -0.02em
+  headline-md:
+    fontFamily: Space Grotesk
+    fontSize: 1.5rem
+    fontWeight: '600'
+    lineHeight: 2rem
+    letterSpacing: -0.02em
+  headline-sm:
+    fontFamily: Space Grotesk
+    fontSize: 1.125rem
+    fontWeight: '600'
+    lineHeight: 1.625rem
+    letterSpacing: -0.01em
+  body-lg:
+    fontFamily: Geist
+    fontSize: 1rem
+    fontWeight: '400'
+    lineHeight: 1.625rem
+    letterSpacing: 0em
+  body-md:
+    fontFamily: Geist
+    fontSize: 0.875rem
+    fontWeight: '400'
+    lineHeight: 1.375rem
+    letterSpacing: 0em
+  body-sm:
+    fontFamily: Geist
+    fontSize: 0.75rem
+    fontWeight: '400'
+    lineHeight: 1.125rem
+    letterSpacing: 0.01em
+  label-md:
+    fontFamily: Geist
+    fontSize: 0.75rem
+    fontWeight: '600'
+    lineHeight: 1rem
+    letterSpacing: 0.08em
+  label-sm:
+    fontFamily: Geist
+    fontSize: 0.6875rem
+    fontWeight: '500'
+    lineHeight: 0.875rem
+    letterSpacing: 0.1em
+  code-sm:
+    fontFamily: Geist
+    fontSize: 0.75rem
+    fontWeight: '500'
+    lineHeight: 1.125rem
+    letterSpacing: 0.02em
+rounded:
+  sm: 0.125rem
+  DEFAULT: 0.25rem
+  md: 0.375rem
+  lg: 0.5rem
+  xl: 0.75rem
+  full: 9999px
+spacing:
+  gutter: 1rem
+  gutter-desktop: 1.5rem
+  margin: 1rem
+  margin-desktop: 2rem
+  space-xs: 0.25rem
+  space-sm: 0.5rem
+  space-md: 1rem
+  space-lg: 1.5rem
+  space-xl: 2rem
+  space-2xl: 3rem
+---
+
+## Brand & Style
+
+This design system establishes an experimental operations command center interface designed for technical operators, telemetry supervisors, and mission-critical workflows. The aesthetic couples high-density utility with cinematic precision, rejecting conventional corporate flatness in favor of an engineered console experience.
+
+Visual principles:
+- **Atmospheric Depth:** Deep slate canvas tiers create a low-luminance substrate where active telemetry elements stand out with distinct focal priority.
+- **Instrument Precision:** Geometry and layouts prioritize structural alignment, hairline visual delimiters, and condensed technical typography reminiscent of heads-up telemetry monitors.
+- **Controlled Luminescence:** Color is deployed strictly as signal data. Active states, interactive affordances, and alert vectors cut through dark structural backdrops with concentrated indigo and cyan luminescence.
+
+## Colors
+
+The palette operates on a high-contrast dark substrate calibrated for prolonged situational awareness in low-light environments.
+
+- **Primary (`#6366F1`):** Electric Indigo acts as the primary interactive driver and focal accent. It commands key action pathways, focused input states, and active data clusters.
+- **Secondary (`#06B6D4`):** Cyber Cyan represents auxiliary telemetry, secondary interactions, system statuses, and network linkages.
+- **Tertiary (`#10B981`):** Biosphere Emerald handles nominal system validation, live feed indicators, and success operations.
+- **Neutral (`#0B0F19`):** Deep Obsidian Slate forms the root canvas. Layered surface tiers scale through `#111827` (Container Base), `#1F2937` (Container Elevated), up to `#374151` (Structural Outlines).
+- **Functional Semantics:** Critical errors leverage sharp Coral (`#EF4444`); advisory conditions utilize Signal Amber (`#F59E0B`).
+
+## Typography
+
+The typographic hierarchy juxtaposes technical geometric display titles in **Space Grotesk** against the neutral, ultra-legible monospace-leaning cadence of **Geist** for dense operational data.
+
+- **Display & Headlines:** Space Grotesk injects structural forward-momentum into dashboard metrics, station designations, and operational readouts. Large figures should maintain tight negative letter-spacing for a chiseled mechanical posture.
+- **Body & Numerical Readouts:** Geist handles continuous logs, metadata, inputs, and tabular reports. Its precise glyph geometry prevents character ambiguity in dense alphanumeric tables.
+- **Labels & Micro-Indicators:** Rendered in uppercase with extended letter spacing (`0.08em` to `0.1em`) to maintain legibility when rendered against low-contrast surfaces at micro dimensions.
+
+## Layout & Spacing
+
+The layout enforces an 8-point baseline mathematical rhythm optimized for high-density command dashboards and modular operations telemetry.
+
+- **Grid Architecture:** 
+  - **Desktop (1200px+):** 12-column dynamic fluid grid with `1.5rem` gutters and `2rem` screen edge margins.
+  - **Tablet (768px - 1199px):** 8-column layout with `1rem` gutters and `1.5rem` margins. Secondary console modules collapse into tabbed sidebars.
+  - **Mobile (<768px):** 4-column single-stack rail with `1rem` margins and condensed `0.5rem` component internal gaps to conserve viewport height.
+- **Density Guidelines:** Component internal spacing adheres to strict technical tolerances: standard operational cards employ `space-lg` outer padding and `space-sm` internal metadata gaps, allowing maximum simultaneous signal visibility without cognitive occlusion.
+
+## Elevation & Depth
+
+This design system avoids soft, decorative drop shadows. Visual depth is established through stacked obsidian structural planes, translucent hairline strokes, and high-frequency edge highlights.
+
+- **Tiers of Presence:**
+  - **Layer 0 (Canvas Substrate):** `#0B0F19` base canvas.
+  - **Layer 1 (Card & Module Deck):** `#111827` surface accented with a single-pixel top highlight (`rgba(255, 255, 255, 0.08)`) and border (`rgba(255, 255, 255, 0.05)`).
+  - **Layer 2 (Overlays & Flyouts):** `#1F2937` surface paired with an outer edge stroke of `#374151` and a low-bleed perimeter shadow (`0 8px 24px rgba(0, 0, 0, 0.6)`).
+  - **Active Luminescence (HUD State):** Interactive elements or critical monitors use a concentrated colored glow (`0 0 16px rgba(99, 102, 241, 0.25)`) to signal focus or live broadcast modes.
+
+## Shapes
+
+The design system adopts a precise, angular shape vocabulary (Level `1` - Soft). 
+
+- **Base Radius (4px / 0.25rem):** Applied to buttons, input fields, tags, indicators, and inline elements. This tight curvature preserves the feeling of machined hardware chassis and technical equipment.
+- **Card & Panel Radius (8px / 0.5rem):** Applied to major telemetry cards, data grids, and floating operational panels (`rounded-lg`).
+- **Modal & Structural HUD Radius (12px / 0.75rem):** Applied exclusively to top-level viewports and dialog prompts (`rounded-xl`).
+- **Pill Exceptions:** Strictly reserved for round active status pips and circular counter badges.
+
+## Components
+
+### Buttons
+- **Primary:** Solid `#6366F1` background, white label text (`label-md`), 4px border radius. Hover introduces a subtle cyan shift with a luminous drop shadow (`rgba(99, 102, 241, 0.4)`).
+- **Secondary:** Dark surface `#1F2937` with a 1px border of `rgba(255, 255, 255, 0.12)`, text in `#E5E7EB`. On hover, border color transitions to `#6366F1`.
+- **Destructive:** Dark crimson base (`#1A0B0E`) with an outer border of `#EF4444` and text in `#FCA5A5`.
+
+### Chips & Telemetry Tags
+- Compact height (22px), uppercase typography (`label-sm`), 4px radius. 
+- Translucent backgrounds: Nominal (`rgba(16, 185, 129, 0.1)` with `#10B981` text), Warning (`rgba(245, 158, 11, 0.1)` with `#F59E0B` text), Alert (`rgba(239, 68, 68, 0.1)` with `#EF4444` text).
+
+### Form Inputs & Terminal Controls
+- Background in `#0F172A`, enclosed by a 1px border of `#374151`.
+- Typography set in `Geist` (`body-md`) with high-contrast text (`#F9FAFB`) and subdued placeholders (`#6B7280`).
+- Active focus state overrides border with a crisp `#6366F1` ring and a 2px inner glow.
+
+### Checkboxes & Switch Controls
+- Square 16px checkboxes with a 2px corner radius. Inactive borders sit at `#4B5563`. Checked state applies `#6366F1` fill with an offset terminal checkmark icon.
+- Hardware-style toggles: 36px track width, sliding square indicator block with micro-chamfered edges.
+
+### Cards & Module Enclosures
+- Background `#111827`, bordered by 1px stroke of `rgba(255, 255, 255, 0.06)`.
+- Card headers incorporate an integrated technical breadcrumb or monospace coordinates tag in `#9CA3AF`.
+
+### Specialized Command Components
+- **Live Signal Tracker:** Real-time pulse ping comprising an animated emerald dot (`#10B981`) enveloped in expanding radar pulse rings.
+- **Metric Stream Units:** Key stat containers featuring high-scale numerical values rendered in `Space Grotesk` with inline delta sparklines and unit suffix micro-labels.

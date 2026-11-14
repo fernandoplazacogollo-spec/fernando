@@ -1,0 +1,8 @@
+{
+  "name": "HumanPro — Gestión RRHH",
+  "description": "Sistema integral de gestión de recursos humanos para administrar empleados, departamentos, cargos, asistencia, novedades laborales y reportes operativos.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

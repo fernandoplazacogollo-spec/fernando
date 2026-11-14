@@ -1,0 +1,330 @@
+Listo, ya te lo agregué. Ahora en la entrada tipo Facebook tienes *2 formas de entrar*:
+
+- Con correo y contraseña
+- Con *Continuar con Google* - botón blanco con la G de Google
+
+Copia todo esto y reemplaza lo anterior en Build Studio.
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HumanPro - Iniciar sesión</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+*{font-family:'Inter',sans-serif}
+.sidebar-link.active{background:#4F46E5;color:white}
+.card{border:1px solid #E2E8F0;border-radius:16px;background:white;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+.badge-activo{background:#DCFCE7;color:#166534}
+.badge-pendiente{background:#FEF3C7;color:#92400E}
+.badge-inactivo{background:#FEE2E2;color:#991B1B}
+.toast{animation:slide .3s ease}
+@keyframes slide{from{transform:translateX(100%)}to{transform:translateX(0)}}
+input,select{outline:none}
+input:focus,select:focus{border-color:#4F46E5!important;box-shadow:0 0 0 3px #EEF2FF}
+.fb-input{border:1px solid #dddfe2;border-radius:6px;padding:14px 16px;width:100%;font-size:17px}
+.fb-input:focus{border-color:#1877F2!important;box-shadow:0 0 0 1px #1877F2!important}
+.fb-btn{background:#1877F2;color:white;font-weight:700;font-size:20px;padding:12px;border-radius:6px;width:100%}
+.fb-btn:hover{background:#166FE5}
+.fb-green{background:#42b72a;color:white;font-weight:700;padding:12px 16px;border-radius:6px}
+.google-btn{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;background:white;border:1px solid #dadce0;border-radius:6px;padding:12px;font-weight:600;font-size:16px;color:#3c4043;transition:.2s}
+.google-btn:hover{background:#f8f9fa;box-shadow:0 1px 3px rgba(0,0,0,.15)}
+.divider{display:flex;align-items:center;gap:12px;color:#65676b;font-size:13px;margin:16px 0}
+.divider::before,.divider::after{content:'';flex:1;height:1px;background:#dadce0}
+</style>
+</head>
+<body class="bg-[#F8FAFC] text-slate-800">
+
+<!-- ========== ENTRADA COMO FACEBOOK + GOOGLE ========== -->
+<div id="view-login" class="min-h-screen bg-[#F0F2F5] flex flex-col">
+  <div class="flex-1 flex items-center justify-center px-4 py-10">
+    <div class="w-full max-w-[980px] flex flex-col lg:flex-row items-center gap-8 lg:gap-16">
+      
+      <div class="flex-1 text-center lg:text-left lg:-mt-20">
+        <h1 class="text-[56px] md:text-[64px] font-extrabold text-[#1877F2] leading-none tracking-tight">humanpro</h1>
+        <p class="text-[24px] md:text-[28px] leading-[32px] text-[#1C1E21] mt-4 max-w-[500px] mx-auto lg:mx-0">Conecta a tu equipo y gestiona empleados, asistencia y novedades en un solo lugar.</p>
+        <div class="hidden lg:flex gap-3 mt-6">
+          <div class="bg-white rounded-xl shadow px-4 py-3 flex items-center gap-3"><span class="text-2xl">👥</span><div class="text-left"><p class="font-bold leading-none">128</p><p class="text-xs text-slate-500">Empleados activos</p></div></div>
+          <div class="bg-white rounded-xl shadow px-4 py-3 flex items-center gap-3"><span class="text-2xl">✅</span><div class="text-left"><p class="font-bold leading-none">98%</p><p class="text-xs text-slate-500">Asistencia hoy</p></div></div>
+          <div class="bg-white rounded-xl shadow px-4 py-3 flex items-center gap-3"><span class="text-2xl">🏢</span><div class="text-left"><p class="font-bold leading-none">4</p><p class="text-xs text-slate-500">Departamentos</p></div></div>
+        </div>
+        <!-- BOTON GOOGLE TAMBIEN A LA IZQUIERDA EN PC -->
+        <button onclick="loginWithGoogle()" class="hidden lg:flex mt-6 items-center gap-3 bg-white shadow rounded-full px-5 py-3 font-semibold text-sm hover:shadow-md">
+          <img src="https://www.gstatic.com/images/branding/product/1x/gsa_512dp.png" class="w-6 h-6" onerror="this.style.display='none'"><span class="w-6 h-6 flex items-center justify-center bg-white rounded-full border text-[14px] font-bold text-[#4285F4]">G</span> Entrar rápido con Google
+        </button>
+      </div>
+
+      <!-- TARJETA -->
+      <div class="w-full max-w-[396px] shrink-0">
+        <div class="bg-white rounded-lg shadow-[0_2px_4px_rgba(0,0,0,.1),0_8px_16px_rgba(0,0,0,.1)] p-4 pb-6 pt-4">
+
+          <!-- BOTON GOOGLE - PRINCIPAL -->
+          <button onclick="loginWithGoogle()" class="google-btn">
+            <svg width="20" height="20" viewBox="0 0 48 48"><path fill="#FFC107" d="M43.6 20.1H42V20H24v8h11.3C33.7 32.7 29.2 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.9 1.2 8 3l5.7-5.7C34.5 6.1 29.5 4 24 4 13 4 4 13 4 24s9 20 20 20 20-9 20-20c0-1.3-.1-2.6-.4-3.9z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.7 15.1 18.9 12 24 12c3.1 0 5.9 1.2 8 3l5.7-5.7C34.5 6.1 29.5 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.4 0 10.3-2 14-5.3l-6.5-5.5C29.5 34.8 26.9 36 24 36c-5.2 0-9.5-3.3-11.3-8l-6.5 5C9.6 39.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20.1H42V20H24v8h11.3c-.8 2.5-2.5 4.6-4.8 6.2l6.5 5.5C39.7 36.4 44 30.7 44 24c0-1.3-.1-2.6-.4-3.9z"/></svg>
+            Continuar con Google
+          </button>
+          <p class="text-center text-[11px] text-slate-400 mt-2">Usa tu cuenta de Gmail, sin contraseña</p>
+
+          <div class="divider">o</div>
+
+          <input id="login-email" value="admin@humanpro.com" placeholder="Correo electrónico o número de teléfono" class="fb-input mb-3">
+          <input id="login-pass" type="password" value="123456" placeholder="Contraseña" class="fb-input mb-3">
+          <button onclick="login()" class="fb-btn">Iniciar sesión</button>
+          <p id="login-error" class="hidden text-center text-red-600 text-sm mt-2">Correo o contraseña incorrectos.</p>
+          <p class="text-center mt-4"><a href="#" onclick="showToast('Te enviamos un link para recuperar tu contraseña','info');return false" class="text-[#1877F2] text-sm font-medium hover:underline">¿Olvidaste tu contraseña?</a></p>
+          <hr class="my-5 border-slate-200">
+          <div class="text-center"><button onclick="openModalRegistro()" class="fb-green text-[17px] px-4">Crear cuenta nueva</button></div>
+          <p class="text-center text-[13px] text-slate-500 mt-4">Demo: <b>admin@humanpro.com</b> / <b>123456</b><br>o dale clic a Google para entrar demo</p>
+        </div>
+        <p class="text-center text-sm mt-6"><b>Crea una página</b> para una empresa, un empleado o un departamento.</p>
+        <p class="text-center text-xs text-slate-400 mt-2">HumanPro © 2026 • Datos de demostración</p>
+      </div>
+    </div>
+  </div>
+  <div class="bg-white py-4 px-4 text-center text-xs text-slate-400">Español • English • Português • HumanPro S.A.S</div>
+</div>
+
+<!-- MODAL GOOGLE - SELECCIONAR CUENTA -->
+<div id="modalGoogle" class="hidden fixed inset-0 bg-black/50 z-[60] flex items-center justify-center p-4">
+  <div class="bg-white w-full max-w-[360px] rounded-2xl shadow-2xl overflow-hidden">
+    <div class="p-5 text-center border-b">
+      <div class="w-12 h-12 mx-auto bg-white rounded-full flex items-center justify-center text-2xl font-bold"><span class="text-[#4285F4]">G</span></div>
+      <h2 class="font-bold text-lg mt-2">Elige una cuenta</h2>
+      <p class="text-sm text-slate-500">para continuar a <b>HumanPro</b></p>
+    </div>
+    <div class="p-2">
+      <button onclick="doGoogleLogin('Administrador','admin@humanpro.com','https://i.pravatar.cc/80?img=12')" class="w-full flex items-center gap-3 p-3 hover:bg-slate-50 rounded-xl text-left"><img src="https://i.pravatar.cc/40?img=12" class="w-10 h-10 rounded-full"><div class="flex-1"><p class="font-semibold text-sm">Administrador HumanPro</p><p class="text-xs text-slate-500">admin@humanpro.com</p></div><span>›</span></button>
+      <button onclick="doGoogleLogin('María González','maria@humanpro.com','https://i.pravatar.cc/80?img=47')" class="w-full flex items-center gap-3 p-3 hover:bg-slate-50 rounded-xl text-left"><img src="https://i.pravatar.cc/80?img=47" class="w-10 h-10 rounded-full"><div class="flex-1"><p class="font-semibold text-sm">María González</p><p class="text-xs text-slate-500">maria@humanpro.com</p></div><span>›</span></button>
+      <button onclick="doGoogleLogin('Carlos Rodríguez','carlos@humanpro.com','https://i.pravatar.cc/80?img=12')" class="w-full flex items-center gap-3 p-3 hover:bg-slate-50 rounded-xl text-left"><img src="https://i.pravatar.cc/80?img=59" class="w-10 h-10 rounded-full"><div class="flex-1"><p class="font-semibold text-sm">Carlos Rodríguez</p><p class="text-xs text-slate-500">carlos@humanpro.com</p></div><span>›</span></button>
+      <button onclick="showToast('Abriendo selector de cuentas de Google...','info')" class="w-full flex items-center gap-3 p-3 hover:bg-slate-50 rounded-xl text-left"><span class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-xl">👤</span><div class="flex-1"><p class="font-semibold text-sm">Usar otra cuenta</p><p class="text-xs text-slate-500">Inicia sesión con otro Gmail</p></div><span>›</span></button>
+    </div>
+    <div class="p-4 bg-slate-50 text-[11px] text-slate-400 text-center">Para usar tu Google real, configura tu Client ID abajo. Mientras tanto funciona en modo demo.</div>
+    <button onclick="document.getElementById('modalGoogle').classList.add('hidden')" class="w-full py-3 text-sm font-medium border-t">Cancelar</button>
+  </div>
+</div>
+
+<!-- MODAL REGISTRO -->
+<div id="modalRegistro" class="hidden fixed inset-0 bg-white/60 backdrop-blur-[2px] z-50 flex items-center justify-center p-4">
+  <div class="bg-white w-full max-w-[432px] rounded-lg shadow-2xl">
+    <div class="p-4 border-b flex justify-between"><div><h2 class="text-[32px] font-bold leading-none">Regístrate</h2><p class="text-[15px] text-slate-500">Es rápido y fácil.</p></div><button onclick="document.getElementById('modalRegistro').classList.add('hidden')" class="text-2xl text-slate-400">✕</button></div>
+    <div class="p-4 space-y-3">
+      <button onclick="loginWithGoogle()" class="google-btn !text-[15px]"><svg width="18" height="18" viewBox="0 0 48 48"><path fill="#FFC107" d="M43.6 20.1H42V20H24v8h11.3C33.7 32.7 29.2 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.9 1.2 8 3l5.7-5.7C34.5 6.1 29.5 4 24 4 13 4 4 13 4 24s9 20 20 20 20-9 20-20c0-1.3-.1-2.6-.4-3.9z"/></svg> Registrarte con Google</button>
+      <div class="divider">o con correo</div>
+      <div class="flex gap-3"><input id="reg-nombre" placeholder="Nombre" class="fb-input !text-[15px] !py-2.5"><input id="reg-apellido" placeholder="Apellido" class="fb-input !text-[15px] !py-2.5"></div>
+      <input id="reg-email" placeholder="Correo electrónico" class="fb-input !text-[15px] !py-2.5">
+      <input id="reg-pass" type="password" placeholder="Contraseña nueva" class="fb-input !text-[15px] !py-2.5">
+      <button onclick="registrarCuenta()" class="w-full bg-[#00A400] text-white font-bold text-[18px] py-2 rounded-md">Registrarte</button>
+    </div>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="view-app" class="hidden min-h-screen flex">
+  <aside id="sidebar" class="w-[260px] bg-white border-r hidden md:flex flex-col fixed h-screen z-20">
+    <div class="p-5 flex items-center gap-3"><div class="w-10 h-10 bg-[#4F46E5] rounded-xl flex items-center justify-center text-xl">👥</div><div><p class="font-bold leading-none">HumanPro</p><p class="text-[11px] text-slate-400">RRHH • v2.0</p></div><span class="ml-auto bg-white border px-2 py-1 rounded-full text-[10px] font-bold flex items-center gap-1"><span class="text-[#4285F4] font-bold">G</span> Google</span></div>
+    <nav class="px-3 flex-1 space-y-1 text-sm font-medium overflow-y-auto">
+      <p class="px-3 pt-2 pb-1 text-[11px] tracking-wider text-slate-400 font-bold">PRINCIPAL</p>
+      <button onclick="show('dashboard',this)" class="sidebar-link active w-full flex gap-3 items-center px-3 py-2.5 rounded-xl text-slate-600">📊 Dashboard</button>
+      <button onclick="show('empleados',this)" class="sidebar-link w-full flex gap-3 items-center px-3 py-2.5 rounded-xl text-slate-600">👤 Empleados</button>
+      <button onclick="show('departamentos',this)" class="sidebar-link w-full flex gap-3 items-center px-3 py-2.5 rounded-xl text-slate-600">🏢 Departamentos</button>
+      <button onclick="show('cargos',this)" class="sidebar-link w-full flex gap-3 items-center px-3 py-2.5 rounded-xl text-slate-600">💼 Cargos</button>
+      <p class="px-3 pt-4 pb-1 text-[11px] tracking-wider text-slate-400 font-bold">OPERACIÓN</p>
+      <button onclick="show('asistencia',this)" class="sidebar-link w-full flex gap-3 items-center px-3 py-2.5 rounded-xl text-slate-600">✅ Asistencia</button>
+      <button onclick="show('novedades',this)" class="sidebar-link w-full flex gap-3 items-center px-3 py-2.5 rounded-xl text-slate-600">📢 Novedades</button>
+      <button onclick="show('reportes',this)" class="sidebar-link w-full flex gap-3 items-center px-3 py-2.5 rounded-xl text-slate-600">📈 Reportes</button>
+      <p class="px-3 pt-4 pb-1 text-[11px] tracking-wider text-slate-400 font-bold">SISTEMA</p>
+      <button onclick="show('configuracion',this)" class="sidebar-link w-full flex gap-3 items-center px-3 py-2.5 rounded-xl text-slate-600">⚙️ Configuración</button>
+    </nav>
+    <div class="p-4 border-t flex items-center gap-3"><img id="userAvatar" src="https://i.pravatar.cc/40?img=12" class="w-10 h-10 rounded-full"><div class="flex-1"><p class="text-sm font-bold leading-none" id="userNameDisplay">Administrador</p><p class="text-xs text-slate-400" id="userEmailDisplay">admin@humanpro.com</p><p class="text-[10px] text-emerald-600 font-bold">● Conectado con Google</p></div><button onclick="logout()" class="text-red-500 text-sm font-medium">Salir</button></div>
+  </aside>
+  <main class="flex-1 md:ml-[260px] w-full">
+    <header class="sticky top-0 bg-white/90 backdrop-blur border-b z-10 px-4 md:px-8 py-4 flex items-center gap-3">
+      <button class="md:hidden text-2xl" onclick="toggleSidebar()">☰</button>
+      <div class="relative flex-1 max-w-md hidden sm:block"><span class="absolute left-3 top-3">🔍</span><input oninput="filtrarEmpleados(this.value)" placeholder="Buscar empleado..." class="w-full border rounded-full pl-9 pr-4 py-2.5 bg-[#F8FAFC] text-sm"></div>
+      <div class="ml-auto flex items-center gap-2">
+        <button onclick="showToast('Tienes 3 novedades pendientes','warning')" class="relative w-10 h-10 border rounded-full flex items-center justify-center">🔔<span class="absolute top-1 right-1 w-2.5 h-2.5 bg-red-500 rounded-full border-2 border-white"></span></button>
+        <button onclick="show('empleados');openModalEmpleado()" class="hidden sm:flex bg-[#4F46E5] text-white px-4 py-2.5 rounded-full text-sm font-semibold">+ Nuevo Empleado</button>
+        <img id="topAvatar" src="https://i.pravatar.cc/40?img=12" class="w-10 h-10 rounded-full border-2 border-white shadow">
+      </div>
+    </header>
+    <div class="p-4 md:p-8 max-w-[1200px] mx-auto">
+      <section id="page-dashboard">
+        <div class="flex flex-wrap justify-between gap-3"><div><h1 class="text-2xl md:text-3xl font-extrabold">Dashboard RRHH 👋 <span id="welcomeName" class="text-base font-medium text-slate-500"></span></h1><p class="text-slate-500 text-sm">Resumen general • Sábado 14 de Noviembre 2026</p></div><button onclick="show('reportes')" class="bg-slate-900 text-white px-4 py-2 rounded-full text-sm font-medium">⬇ Exportar reporte</button></div>
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mt-6">
+          <div class="card p-5"><div class="flex justify-between"><span class="w-10 h-10 bg-indigo-100 rounded-xl flex items-center justify-center">👥</span><span class="text-emerald-600 bg-emerald-50 px-2 py-1 rounded-full text-xs font-bold">+12%</span></div><p class="text-3xl font-extrabold mt-3">128</p><p class="text-sm font-medium">Empleados Activos</p></div>
+          <div class="card p-5"><div class="flex justify-between"><span class="w-10 h-10 bg-emerald-100 rounded-xl flex items-center justify-center">✅</span><span class="text-emerald-600 bg-emerald-50 px-2 py-1 rounded-full text-xs font-bold">98%</span></div><p class="text-3xl font-extrabold mt-3">124</p><p class="text-sm font-medium">Presentes Hoy</p></div>
+          <div class="card p-5"><div class="flex justify-between"><span class="w-10 h-10 bg-amber-100 rounded-xl flex items-center justify-center">🏢</span><span class="text-xs bg-slate-100 px-2 py-1 rounded-full font-bold">4 dept.</span></div><p class="text-3xl font-extrabold mt-3" id="kpiDep">4</p><p class="text-sm font-medium">Departamentos</p></div>
+          <div class="card p-5"><div class="flex justify-between"><span class="w-10 h-10 bg-rose-100 rounded-xl flex items-center justify-center">📢</span><span class="text-amber-600 bg-amber-50 px-2 py-1 rounded-full text-xs font-bold">Pendiente</span></div><p class="text-3xl font-extrabold mt-3" id="kpiNov">3</p><p class="text-sm font-medium">Novedades Pendientes</p></div>
+        </div>
+        <div class="grid lg:grid-cols-5 gap-4 mt-4">
+          <div class="card p-5 lg:col-span-3"><h3 class="font-bold">Empleados por Departamento</h3><canvas id="chartDep" class="mt-4" height="140"></canvas></div>
+          <div class="card p-5 lg:col-span-2"><h3 class="font-bold">Accesos rápidos</h3><div class="grid grid-cols-2 gap-3 mt-4"><button onclick="openModalEmpleado()" class="border rounded-xl p-4 text-left hover:border-indigo-500"><span class="text-xl">➕</span><p class="font-semibold text-sm mt-1">Crear empleado</p></button><button onclick="show('asistencia')" class="border rounded-xl p-4 text-left hover:border-indigo-500"><span class="text-xl">🕒</span><p class="font-semibold text-sm mt-1">Registrar asistencia</p></button><button onclick="show('novedades')" class="border rounded-xl p-4 text-left hover:border-indigo-500"><span class="text-xl">📝</span><p class="font-semibold text-sm mt-1">Nueva novedad</p></button><button onclick="show('reportes')" class="border rounded-xl p-4 text-left hover:border-indigo-500"><span class="text-xl">📊</span><p class="font-semibold text-sm mt-1">Ver reportes</p></button></div></div>
+        </div>
+        <div class="card mt-4 overflow-hidden"><div class="p-5 flex justify-between"><h3 class="font-bold">Actividad reciente</h3><button class="text-indigo-600 text-sm font-medium">Ver todo →</button></div><div id="actividad" class="divide-y text-sm"></div></div>
+      </section>
+      <section id="page-empleados" class="hidden">
+        <div class="flex flex-wrap justify-between gap-3"><div><h1 class="text-2xl font-extrabold">Empleados</h1></div><button onclick="openModalEmpleado()" class="bg-[#4F46E5] text-white px-5 py-3 rounded-full font-semibold text-sm">+ Nuevo Empleado</button></div>
+        <div class="card p-4 mt-5 flex flex-wrap gap-3"><input id="buscadorEmp" oninput="filtrarEmpleados(this.value)" placeholder="🔍 Buscar..." class="border rounded-full px-4 py-2.5 flex-1 min-w-[200px]"><select id="filtroDep" onchange="filtrarEmpleados()" class="border rounded-full px-3 py-2.5 text-sm"><option value="">Todos los departamentos</option><option>Tecnología</option><option>Talento Humano</option><option>Ventas</option><option>Finanzas</option></select><select id="filtroEstado" onchange="filtrarEmpleados()" class="border rounded-full px-3 py-2.5 text-sm"><option value="">Todos los estados</option><option>Activo</option><option>Inactivo</option></select></div>
+        <div class="card mt-4 overflow-x-auto"><table class="w-full text-sm min-w-[700px]"><thead class="bg-slate-50 text-left text-xs text-slate-500"><tr><th class="p-4">EMPLEADO</th><th class="p-4">CARGO</th><th class="p-4">DEPARTAMENTO</th><th class="p-4">INGRESO</th><th class="p-4">ESTADO</th><th class="p-4">ACCIONES</th></tr></thead><tbody id="tablaEmpleados"></tbody></table></div>
+      </section>
+      <section id="page-departamentos" class="hidden"><h1 class="text-2xl font-extrabold">Departamentos</h1><div class="grid md:grid-cols-2 lg:grid-cols-4 gap-4 mt-5" id="gridDept"></div><div class="card p-5 mt-4"><h3 class="font-bold">Crear departamento</h3><div class="flex flex-wrap gap-3 mt-3"><input id="nuevoDepNombre" placeholder="Nombre" class="border rounded-xl px-4 py-3 flex-1"><input id="nuevoDepDesc" placeholder="Descripción" class="border rounded-xl px-4 py-3 flex-1"><button onclick="crearDepartamento()" class="bg-[#4F46E5] text-white px-5 py-3 rounded-xl font-semibold">Crear</button></div></div></section>
+      <section id="page-cargos" class="hidden"><h1 class="text-2xl font-extrabold">Cargos</h1><div class="card mt-5 overflow-x-auto"><table class="w-full text-sm min-w-[600px]"><thead class="bg-slate-50 text-left text-xs text-slate-500"><tr><th class="p-4">CARGO</th><th class="p-4">DEPARTAMENTO</th><th class="p-4">SALARIO BASE</th><th class="p-4">EMPLEADOS</th></tr></thead><tbody id="tablaCargos"></tbody></table></div><div class="card p-5 mt-4"><h3 class="font-bold">Nuevo cargo</h3><div class="flex flex-wrap gap-3 mt-3"><input id="nuevoCargo" placeholder="Ej: Desarrollador Senior" class="border rounded-xl px-4 py-3 flex-1"><select id="nuevoCargoDep" class="border rounded-xl px-3 py-3"><option>Tecnología</option><option>Ventas</option><option>Finanzas</option><option>Talento Humano</option></select><input id="nuevoCargoSalario" type="number" placeholder="Salario" class="border rounded-xl px-4 py-3 w-40"><button onclick="crearCargo()" class="bg-[#4F46E5] text-white px-5 py-3 rounded-xl font-semibold">Guardar</button></div></div></section>
+      <section id="page-asistencia" class="hidden"><h1 class="text-2xl font-extrabold">Registro de Asistencia</h1><div class="grid grid-cols-3 gap-4 mt-5"><div class="card p-5 text-center"><p class="text-3xl font-extrabold text-emerald-600">124</p><p class="text-sm">Presentes</p></div><div class="card p-5 text-center"><p class="text-3xl font-extrabold text-amber-600">2</p><p class="text-sm">Retardos</p></div><div class="card p-5 text-center"><p class="text-3xl font-extrabold text-red-600">2</p><p class="text-sm">Ausentes</p></div></div><div class="card mt-4 overflow-x-auto"><table class="w-full text-sm min-w-[600px]"><thead class="bg-slate-50 text-left text-xs text-slate-500"><tr><th class="p-4">EMPLEADO</th><th class="p-4">ENTRADA</th><th class="p-4">SALIDA</th><th class="p-4">ESTADO</th><th class="p-4">MARCAR</th></tr></thead><tbody id="tablaAsistencia"></tbody></table></div><button onclick="guardarAsistencia()" class="mt-4 w-full bg-[#4F46E5] text-white py-3.5 rounded-xl font-semibold">💾 Guardar Asistencia</button></section>
+      <section id="page-novedades" class="hidden"><h1 class="text-2xl font-extrabold">Novedades Laborales</h1><div class="card p-5 mt-5"><h3 class="font-bold">Registrar novedad</h3><div class="grid md:grid-cols-4 gap-3 mt-3"><select id="novEmp" class="border rounded-xl px-3 py-3"></select><select id="novTipo" class="border rounded-xl px-3 py-3"><option>Vacaciones</option><option>Incapacidad</option><option>Permiso</option><option>Bonificación</option><option>Ascenso</option></select><input id="novDesc" placeholder="Descripción..." class="border rounded-xl px-4 py-3"><button onclick="crearNovedad()" class="bg-[#4F46E5] text-white px-5 py-3 rounded-xl font-semibold">Registrar</button></div></div><div class="card mt-4 overflow-x-auto"><table class="w-full text-sm min-w-[600px]"><thead class="bg-slate-50 text-left text-xs text-slate-500"><tr><th class="p-4">EMPLEADO</th><th class="p-4">TIPO</th><th class="p-4">DESCRIPCIÓN</th><th class="p-4">ESTADO</th><th class="p-4">ACCIÓN</th></tr></thead><tbody id="tablaNovedades"></tbody></table></div></section>
+      <section id="page-reportes" class="hidden"><h1 class="text-2xl font-extrabold">Reportes</h1><div class="grid md:grid-cols-2 gap-4 mt-5"><div class="card p-5"><h3 class="font-bold">Asistencia semanal</h3><canvas id="chartAsist" height="150"></canvas></div><div class="card p-5"><h3 class="font-bold">Novedades por tipo</h3><canvas id="chartNov" height="150"></canvas></div></div><div class="grid md:grid-cols-3 gap-4 mt-4"><button onclick="showToast('Reporte de empleados generado','success')" class="card p-5 text-left"><p class="text-2xl">📄</p><p class="font-bold mt-2">Reporte de Empleados</p></button><button onclick="showToast('Reporte de asistencia generado','success')" class="card p-5 text-left"><p class="text-2xl">🕒</p><p class="font-bold mt-2">Reporte de Asistencia</p></button><button onclick="showToast('Reporte de nómina generado','success')" class="card p-5 text-left"><p class="text-2xl">💰</p><p class="font-bold mt-2">Reporte de Nómina</p></button></div></section>
+      <section id="page-configuracion" class="hidden"><h1 class="text-2xl font-extrabold">Configuración</h1><div class="card p-6 mt-5 max-w-2xl"><h3 class="font-bold">Empresa</h3><div class="grid md:grid-cols-2 gap-3 mt-4"><div><label class="text-sm">Nombre empresa</label><input value="HumanPro S.A.S" class="w-full border rounded-xl px-4 py-3 mt-1"></div><div><label class="text-sm">NIT</label><input value="900.123.456-7" class="w-full border rounded-xl px-4 py-3 mt-1"></div><div><label class="text-sm">Horario entrada</label><input type="time" value="08:00" class="w-full border rounded-xl px-4 py-3 mt-1"></div><div><label class="text-sm">Horario salida</label><input type="time" value="18:00" class="w-full border rounded-xl px-4 py-3 mt-1"></div></div><div class="mt-5 p-4 bg-slate-50 rounded-xl"><p class="font-bold text-sm">Cuenta conectada</p><p class="text-sm text-slate-500" id="configGoogleInfo">No hay cuenta de Google conectada</p><button onclick="loginWithGoogle()" class="mt-2 google-btn !w-auto !px-4 !py-2 !text-sm">Conectar con Google</button></div><button onclick="showToast('Configuración guardada','success')" class="mt-5 bg-[#4F46E5] text-white px-6 py-3 rounded-xl font-semibold">Guardar cambios</button></div></section>
+    </div>
+  </main>
+</div>
+
+<div id="modalEmpleado" class="hidden fixed inset-0 bg-black/50 z-50 flex items-end md:items-center justify-center p-0 md:p-6"><div class="bg-white w-full max-w-2xl rounded-t-3xl md:rounded-3xl max-h-[92vh] overflow-y-auto"><div class="p-6 flex justify-between sticky top-0 bg-white border-b"><div><h2 class="text-xl font-extrabold" id="modalTitle">Nuevo Empleado</h2></div><button onclick="closeModalEmpleado()" class="w-9 h-9 bg-slate-100 rounded-full">✕</button></div><div class="p-6 grid md:grid-cols-2 gap-4"><div><label class="text-sm font-medium">Documento *</label><input id="f-doc" class="w-full border rounded-xl px-4 py-3 mt-1"></div><div><label class="text-sm font-medium">Correo *</label><input id="f-email" class="w-full border rounded-xl px-4 py-3 mt-1"></div><div><label class="text-sm font-medium">Nombres *</label><input id="f-nombres" class="w-full border rounded-xl px-4 py-3 mt-1"></div><div><label class="text-sm font-medium">Apellidos *</label><input id="f-apellidos" class="w-full border rounded-xl px-4 py-3 mt-1"></div><div><label class="text-sm font-medium">Teléfono</label><input id="f-tel" class="w-full border rounded-xl px-4 py-3 mt-1"></div><div><label class="text-sm font-medium">Fecha ingreso</label><input id="f-fecha" type="date" value="2026-11-14" class="w-full border rounded-xl px-4 py-3 mt-1"></div><div><label class="text-sm font-medium">Departamento</label><select id="f-dep" class="w-full border rounded-xl px-3 py-3 mt-1"><option>Tecnología</option><option>Talento Humano</option><option>Ventas</option><option>Finanzas</option></select></div><div><label class="text-sm font-medium">Cargo</label><select id="f-cargo" class="w-full border rounded-xl px-3 py-3 mt-1"><option>Desarrollador Junior</option><option>Desarrollador Senior</option><option>Analista RRHH</option><option>Ejecutivo Ventas</option><option>Contador</option></select></div><div><label class="text-sm font-medium">Tipo contrato</label><select id="f-contrato" class="w-full border rounded-xl px-3 py-3 mt-1"><option>Indefinido</option><option>Fijo</option><option>Prestación servicios</option></select></div><div><label class="text-sm font-medium">Salario</label><input id="f-salario" type="number" value="2500000" class="w-full border rounded-xl px-4 py-3 mt-1"></div></div><div class="p-6 border-t flex gap-3"><button onclick="closeModalEmpleado()" class="flex-1 border py-3 rounded-xl font-semibold">Cancelar</button><button onclick="guardarEmpleado()" class="flex-1 bg-[#4F46E5] text-white py-3 rounded-xl font-semibold">💾 Guardar Empleado</button></div></div></div>
+<div id="modalDetalle" class="hidden fixed inset-0 bg-black/50 z-50 flex items-end md:items-center justify-center p-0 md:p-6"><div class="bg-white w-full max-w-lg rounded-t-3xl md:rounded-3xl p-6"><div class="flex justify-between"><h2 class="font-extrabold text-xl">Detalle del Empleado</h2><button onclick="document.getElementById('modalDetalle').classList.add('hidden')" class="w-9 h-9 bg-slate-100 rounded-full">✕</button></div><div id="detalleContent" class="mt-4"></div><button onclick="document.getElementById('modalDetalle').classList.add('hidden')" class="mt-5 w-full bg-slate-900 text-white py-3 rounded-xl font-semibold">Cerrar</button></div></div>
+<div id="toasts" class="fixed top-4 right-4 z-[100] space-y-2 w-[320px] max-w-[calc(100vw-2rem)]"></div>
+
+<script>
+// ========== CONFIG GOOGLE REAL - CAMBIA ESTO ==========
+// Para Google real: ve a console.cloud.google.com > Crear proyecto > APIs > Credenciales > ID de cliente OAuth > Web
+// Copia tu Client ID y pégalo aquí:
+const GOOGLE_CLIENT_ID = "TU_CLIENT_ID_DE_GOOGLE_AQUI.apps.googleusercontent.com";
+// Si dejas el de arriba, la app funciona en MODO DEMO (abre selector de cuentas de ejemplo)
+
+let currentUser = null;
+let empleados=[
+ {id:1,doc:'1098765432',nombres:'María',apellidos:'González',email:'maria@humanpro.com',cargo:'Desarrollador Senior',dep:'Tecnología',ingreso:'2023-02-15',salario:4200000,estado:'Activo',foto:'https://i.pravatar.cc/80?img=47'},
+ {id:2,doc:'1098765433',nombres:'Carlos',apellidos:'Rodríguez',email:'carlos@humanpro.com',cargo:'Analista RRHH',dep:'Talento Humano',ingreso:'2024-01-10',salario:2600000,estado:'Activo',foto:'https://i.pravatar.cc/80?img=12'},
+ {id:3,doc:'1098765434',nombres:'Ana',apellidos:'Martínez',email:'ana@humanpro.com',cargo:'Ejecutivo Ventas',dep:'Ventas',ingreso:'2024-05-20',salario:2400000,estado:'Activo',foto:'https://i.pravatar.cc/80?img=32'},
+ {id:4,doc:'1098765435',nombres:'José',apellidos:'Pérez',email:'jose@humanpro.com',cargo:'Contador',dep:'Finanzas',ingreso:'2022-09-01',salario:3200000,estado:'Activo',foto:'https://i.pravatar.cc/80?img=59'},
+ {id:5,doc:'1098765436',nombres:'Laura',apellidos:'López',email:'laura@humanpro.com',cargo:'Desarrollador Junior',dep:'Tecnología',ingreso:'2025-03-01',salario:2500000,estado:'Activo',foto:'https://i.pravatar.cc/80?img=45'},
+ {id:6,doc:'1098765437',nombres:'Diego',apellidos:'Torres',email:'diego@humanpro.com',cargo:'Diseñador UX',dep:'Tecnología',ingreso:'2024-08-12',salario:3000000,estado:'Inactivo',foto:'https://i.pravatar.cc/80?img=68'},
+];
+let departamentos=[{nombre:'Tecnología',desc:'Desarrollo y soporte',total:42,color:'bg-indigo-100',icon:'💻'},{nombre:'Talento Humano',desc:'Gestión de personal',total:12,color:'bg-emerald-100',icon:'👥'},{nombre:'Ventas',desc:'Comercial y clientes',total:38,color:'bg-amber-100',icon:'📈'},{nombre:'Finanzas',desc:'Contabilidad y nómina',total:16,color:'bg-rose-100',icon:'💰'}];
+let cargos=[{nombre:'Desarrollador Senior',dep:'Tecnología',salario:4200000,total:12},{nombre:'Analista RRHH',dep:'Talento Humano',salario:2600000,total:5},{nombre:'Ejecutivo Ventas',dep:'Ventas',salario:2400000,total:22},{nombre:'Contador',dep:'Finanzas',salario:3200000,total:4}];
+let novedades=[{emp:'María González',tipo:'Vacaciones',desc:'Vacaciones 15 días - Diciembre',estado:'Pendiente'},{emp:'Carlos Rodríguez',tipo:'Permiso',desc:'Permiso médico 2 días',estado:'Aprobada'},{emp:'Ana Martínez',tipo:'Bonificación',desc:'Bonificación por cumplimiento metas',estado:'Pendiente'}];
+let editId=null;
+
+// GOOGLE - Inicializar Google Identity Services si hay Client ID real
+window.onload = function(){
+  if(GOOGLE_CLIENT_ID && !GOOGLE_CLIENT_ID.includes('TU_CLIENT_ID')){
+    try{
+      google.accounts.id.initialize({client_id: GOOGLE_CLIENT_ID, callback: handleGoogleCredential});
+    }catch(e){ console.log('Google no inicializado, modo demo'); }
+  }
+};
+function handleGoogleCredential(response){
+  // Decodifica el JWT de Google
+  try{
+    const payload = JSON.parse(atob(response.credential.split('.')[1]));
+    doGoogleLogin(payload.name, payload.email, payload.picture);
+  }catch(e){ showToast('Error con Google, intenta de nuevo','error'); }
+}
+function loginWithGoogle(){
+  // Si tienes Client ID real, abre el popup real de Google
+  if(GOOGLE_CLIENT_ID && !GOOGLE_CLIENT_ID.includes('TU_CLIENT_ID') && typeof google !== 'undefined'){
+    google.accounts.id.prompt();
+  } else {
+    // Modo demo para Build Studio / presentación
+    document.getElementById('modalGoogle').classList.remove('hidden');
+  }
+}
+function doGoogleLogin(nombre, email, foto){
+  currentUser = {nombre, email, foto, provider:'Google'};
+  document.getElementById('modalGoogle').classList.add('hidden');
+  document.getElementById('modalRegistro').classList.add('hidden');
+  document.getElementById('view-login').classList.add('hidden');
+  document.getElementById('view-app').classList.remove('hidden');
+  document.getElementById('userNameDisplay').innerText = nombre;
+  document.getElementById('userEmailDisplay').innerText = email;
+  document.getElementById('userAvatar').src = foto;
+  document.getElementById('topAvatar').src = foto;
+  document.getElementById('welcomeName').innerText = '• Bienvenido, '+nombre+' (Google)';
+  document.getElementById('configGoogleInfo').innerText = 'Conectado como '+nombre+' • '+email+' • Google';
+  localStorage.setItem('humanpro_user', JSON.stringify(currentUser));
+  renderAll(); initCharts();
+  showToast('Sesión iniciada con Google como '+nombre,'success');
+}
+
+function toggleSidebar(){document.getElementById('sidebar').classList.toggle('hidden');document.getElementById('sidebar').classList.toggle('flex');}
+function login(){
+ const email=document.getElementById('login-email').value;
+ const pass=document.getElementById('login-pass').value;
+ if(email==='admin@humanpro.com' && pass==='123456'){
+  currentUser={nombre:'Administrador',email:email,foto:'https://i.pravatar.cc/80?img=12',provider:'Email'};
+  document.getElementById('login-error').classList.add('hidden');
+  document.getElementById('view-login').classList.add('hidden');
+  document.getElementById('view-app').classList.remove('hidden');
+  renderAll(); initCharts(); showToast('Bienvenido a HumanPro, Administrador','success');
+ } else { document.getElementById('login-error').classList.remove('hidden'); showToast('Correo o contraseña incorrectos','error'); }
+}
+document.getElementById('login-pass')?.addEventListener('keydown',e=>{if(e.key==='Enter') login()});
+function openModalRegistro(){document.getElementById('modalRegistro').classList.remove('hidden');}
+function registrarCuenta(){
+ const nom=document.getElementById('reg-nombre').value, ape=document.getElementById('reg-apellido').value, em=document.getElementById('reg-email').value;
+ if(!nom||!ape||!em){showToast('Completa nombre, apellido y correo','error');return;}
+ document.getElementById('modalRegistro').classList.add('hidden');
+ document.getElementById('login-email').value=em;
+ showToast('Cuenta creada. Ahora inicia sesión','success');
+}
+function logout(){
+  currentUser=null; localStorage.removeItem('humanpro_user');
+  // Cerrar sesión de Google si existe
+  if(typeof google !== 'undefined' && google.accounts){ try{ google.accounts.id.disableAutoSelect(); }catch(e){} }
+  document.getElementById('view-app').classList.add('hidden');document.getElementById('view-login').classList.remove('hidden');
+  showToast('Sesión cerrada','info');
+}
+function show(page,btn){ document.querySelectorAll('section[id^="page-"]').forEach(s=>s.classList.add('hidden')); document.getElementById('page-'+page).classList.remove('hidden'); if(btn){document.querySelectorAll('.sidebar-link').forEach(b=>b.classList.remove('active'));btn.classList.add('active');} window.scrollTo(0,0); }
+function showToast(msg,type='success'){
+ const colors={success:'border-emerald-500 bg-emerald-50 text-emerald-800',error:'border-red-500 bg-red-50 text-red-800',warning:'border-amber-500 bg-amber-50 text-amber-800',info:'border-blue-500 bg-blue-50 text-blue-800'};
+ const icons={success:'✅',error:'❌',warning:'⚠️',info:'ℹ️'};
+ const div=document.createElement('div'); div.className=`toast flex gap-3 p-4 rounded-2xl border-l-4 shadow-xl ${colors[type]} text-sm font-medium`; div.innerHTML=`<span>${icons[type]}</span><span class="flex-1">${msg}</span><button onclick="this.parentElement.remove()">✕</button>`; document.getElementById('toasts').appendChild(div); setTimeout(()=>div.remove(),4000);
+}
+function filtrarEmpleados(q){ const texto=(q ?? document.getElementById('buscadorEmp').value||'').toLowerCase(); const dep=document.getElementById('filtroDep')?.value||''; const est=document.getElementById('filtroEstado')?.value||''; const filtrados=empleados.filter(e=>(e.nombres+' '+e.apellidos+' '+e.doc).toLowerCase().includes(texto)&&(!dep||e.dep===dep)&&(!est||e.estado===est)); renderEmpleados(filtrados); }
+function renderEmpleados(lista=empleados){ document.getElementById('tablaEmpleados').innerHTML=lista.map(e=>`<tr class="border-t hover:bg-slate-50"><td class="p-4"><div class="flex gap-3 items-center"><img src="${e.foto}" class="w-10 h-10 rounded-full"><div><p class="font-semibold">${e.nombres} ${e.apellidos}</p><p class="text-xs text-slate-400">${e.email} • ${e.doc}</p></div></div></td><td class="p-4">${e.cargo}</td><td class="p-4">${e.dep}</td><td class="p-4">${e.ingreso}</td><td class="p-4"><span class="px-2.5 py-1 rounded-full text-xs font-bold ${e.estado==='Activo'?'badge-activo':'badge-inactivo'}">${e.estado}</span></td><td class="p-4"><div class="flex gap-1"><button onclick="verDetalle(${e.id})" class="w-8 h-8 bg-slate-100 rounded-lg">👁️</button><button onclick="editarEmpleado(${e.id})" class="w-8 h-8 bg-indigo-100 rounded-lg">✏️</button><button onclick="eliminarEmpleado(${e.id})" class="w-8 h-8 bg-red-100 rounded-lg">🗑️</button></div></td></tr>`).join('')||'<tr><td colspan="6" class="p-8 text-center text-slate-400">No se encontraron empleados.</td></tr>'; }
+function renderDept(){document.getElementById('gridDept').innerHTML=departamentos.map(d=>`<div class="card p-5"><div class="w-12 h-12 ${d.color} rounded-2xl flex items-center justify-center text-2xl">${d.icon}</div><h3 class="font-bold mt-3">${d.nombre}</h3><p class="text-xs text-slate-400">${d.desc}</p><p class="text-2xl font-extrabold mt-3">${d.total} <span class="text-xs font-normal text-slate-400">empleados</span></p></div>`).join('');}
+function renderCargos(){document.getElementById('tablaCargos').innerHTML=cargos.map(c=>`<tr class="border-t"><td class="p-4 font-semibold">${c.nombre}</td><td class="p-4">${c.dep}</td><td class="p-4">$${c.salario.toLocaleString()}</td><td class="p-4">${c.total}</td></tr>`).join('');}
+function renderAsistencia(){document.getElementById('tablaAsistencia').innerHTML=empleados.map(e=>`<tr class="border-t"><td class="p-4"><div class="flex gap-3 items-center"><img src="${e.foto}" class="w-9 h-9 rounded-full"><span class="font-medium">${e.nombres} ${e.apellidos}</span></div></td><td class="p-4">08:02 AM</td><td class="p-4">—</td><td class="p-4"><span class="badge-activo px-2 py-1 rounded-full text-xs font-bold">Presente</span></td><td class="p-4"><select class="border rounded-lg px-2 py-1.5 text-xs"><option>Presente</option><option>Ausente</option><option>Retardo</option><option>Permiso</option></select></td></tr>`).join('');}
+function renderNovedades(){ document.getElementById('tablaNovedades').innerHTML=novedades.map((n,i)=>`<tr class="border-t"><td class="p-4 font-medium">${n.emp}</td><td class="p-4"><span class="bg-slate-100 px-2 py-1 rounded-full text-xs font-bold">${n.tipo}</span></td><td class="p-4">${n.desc}</td><td class="p-4"><span class="px-2 py-1 rounded-full text-xs font-bold ${n.estado==='Pendiente'?'badge-pendiente':'badge-activo'}">${n.estado}</span></td><td class="p-4 flex gap-1"><button onclick="aprobarNov(${i})" class="bg-emerald-100 px-3 py-1.5 rounded-lg text-xs font-bold text-emerald-700">Aprobar</button><button onclick="rechazarNov(${i})" class="bg-red-100 px-3 py-1.5 rounded-lg text-xs font-bold text-red-700">Rechazar</button></td></tr>`).join(''); document.getElementById('novEmp').innerHTML=empleados.map(e=>`<option>${e.nombres} ${e.apellidos}</option>`).join(''); document.getElementById('kpiNov').innerText=novedades.filter(n=>n.estado==='Pendiente').length; }
+function renderActividad(){ const acts=[['🟢','María González','registró su entrada','Hace 5 min'],['➕','Carlos Rodríguez','creó un nuevo empleado','Hace 18 min'],['📢','Ana Martínez','solicitó vacaciones','Hace 1 hora'],['✅','José Pérez','aprobó novedad de permiso','Hace 2 horas'],['📊','Sistema','generó reporte de asistencia','Ayer']]; document.getElementById('actividad').innerHTML=acts.map(a=>`<div class="p-4 flex gap-3 items-center"><span class="text-lg">${a[0]}</span><div class="flex-1"><p class="font-medium">${a[1]} <span class="font-normal text-slate-500">${a[2]}</span></p></div><span class="text-xs text-slate-400">${a[3]}</span></div>`).join(''); }
+function openModalEmpleado(){editId=null;document.getElementById('modalTitle').innerText='Nuevo Empleado';document.getElementById('modalEmpleado').classList.remove('hidden');}
+function closeModalEmpleado(){document.getElementById('modalEmpleado').classList.add('hidden');}
+function guardarEmpleado(){ const nom=document.getElementById('f-nombres').value.trim(),ape=document.getElementById('f-apellidos').value.trim(),doc=document.getElementById('f-doc').value.trim(); if(!nom||!ape||!doc){showToast('Completa los campos obligatorios *','error');return;} if(editId){const e=empleados.find(x=>x.id===editId);e.nombres=nom;e.apellidos=ape;e.doc=doc;e.email=document.getElementById('f-email').value;e.cargo=document.getElementById('f-cargo').value;e.dep=document.getElementById('f-dep').value;showToast('Empleado actualizado','success');} else{empleados.unshift({id:Date.now(),doc,nombres:nom,apellidos:ape,email:document.getElementById('f-email').value||'nuevo@humanpro.com',cargo:document.getElementById('f-cargo').value,dep:document.getElementById('f-dep').value,ingreso:document.getElementById('f-fecha').value,salario:parseInt(document.getElementById('f-salario').value||0),estado:'Activo',foto:'https://i.pravatar.cc/80?img=5'});showToast(`Empleado ${nom} ${ape} creado`,'success');} closeModalEmpleado(); renderAll(); show('empleados'); }
+function verDetalle(id){ const e=empleados.find(x=>x.id===id); document.getElementById('detalleContent').innerHTML=`<div class="flex gap-4 items-center"><img src="${e.foto}" class="w-16 h-16 rounded-2xl"><div><p class="font-extrabold text-lg">${e.nombres} ${e.apellidos}</p><p class="text-sm text-slate-500">${e.cargo} • ${e.dep}</p><span class="badge-activo px-2 py-1 rounded-full text-xs font-bold">${e.estado}</span></div></div><div class="grid grid-cols-2 gap-3 mt-5 text-sm"><div class="bg-slate-50 p-3 rounded-xl"><p class="text-xs text-slate-400">Documento</p><p class="font-semibold">${e.doc}</p></div><div class="bg-slate-50 p-3 rounded-xl"><p class="text-xs text-slate-400">Correo</p><p class="font-semibold">${e.email}</p></div><div class="bg-slate-50 p-3 rounded-xl"><p class="text-xs text-slate-400">Ingreso</p><p class="font-semibold">${e.ingreso}</p></div><div class="bg-slate-50 p-3 rounded-xl"><p class="text-xs text-slate-400">Salario</p><p class="font-semibold">$${e.salario.toLocaleString()}</p></div></div>`; document.getElementById('modalDetalle').classList.remove('hidden'); }
+function editarEmpleado(id){const e=empleados.find(x=>x.id===id);editId=id;document.getElementById('f-nombres').value=e.nombres;document.getElementById('f-apellidos').value=e.apellidos;document.getElementById('f-doc').value=e.doc;document.getElementById('f-email').value=e.email;document.getElementById('modalTitle').innerText='Editar Empleado';document.getElementById('modalEmpleado').classList.remove('hidden');}
+function eliminarEmpleado(id){if(confirm('¿Estás seguro de eliminar este empleado?')){empleados=empleados.filter(x=>x.id!==id);renderEmpleados();showToast('Empleado eliminado','warning');}}
+function crearDepartamento(){const n=document.getElementById('nuevoDepNombre').value.trim();if(!n)return showToast('Escribe el nombre','error');departamentos.push({nombre:n,desc:document.getElementById('nuevoDepDesc').value||'Nuevo departamento',total:0,color:'bg-indigo-100',icon:'🏢'});document.getElementById('kpiDep').innerText=departamentos.length;renderDept();showToast('Departamento '+n+' creado','success');}
+function crearCargo(){const n=document.getElementById('nuevoCargo').value.trim();if(!n)return showToast('Escribe el nombre del cargo','error');cargos.push({nombre:n,dep:document.getElementById('nuevoCargoDep').value,salario:parseInt(document.getElementById('nuevoCargoSalario').value||0),total:0});renderCargos();showToast('Cargo '+n+' creado','success');}
+function crearNovedad(){novedades.unshift({emp:document.getElementById('novEmp').value,tipo:document.getElementById('novTipo').value,desc:document.getElementById('novDesc').value||'Sin descripción',estado:'Pendiente'});renderNovedades();showToast('Novedad registrada','success');}
+function aprobarNov(i){novedades[i].estado='Aprobada';renderNovedades();showToast('Novedad aprobada','success');}
+function rechazarNov(i){novedades[i].estado='Rechazada';renderNovedades();showToast('Novedad rechazada','warning');}
+function guardarAsistencia(){showToast('Asistencia guardada','success');}
+function renderAll(){renderEmpleados();renderDept();renderCargos();renderAsistencia();renderNovedades();renderActividad();}
+let chartsInit=false;
+function initCharts(){ if(chartsInit) return; chartsInit=true; new Chart(document.getElementById('chartDep'),{type:'bar',data:{labels:['Tecnología',[STRIPPED] Humano'],datasets:[{data:[42,[STRIPPED] const c2=document.getElementById('chartAsist'); if(c2) new Chart(c2,{type:'line',data:{labels:['Lun',[STRIPPED] const c3=document.getElementById('chartNov'); if(c3) new Chart(c3,{type:'doughnut',data:{labels:['Vacaciones',[STRIPPED] }
+renderAll();
+</script>
+</body>
+</html>
+### Cómo funciona ahora:
+
+*1. Para probar ya mismo en Build Studio (modo demo):*
+- Dale clic a *Continuar con Google*
+- Te sale el selector de cuentas de Google estilo real
+- Eliges una cuenta y entras, con su nombre y foto en el sidebar
+
+*2. Para Google REAL con tu Gmail de verdad:*
+1. Ve a `console.cloud.google.com`
+2. Crea proyecto > APIs y servicios > Credenciales > *Crear ID de cliente OAuth*
+3. Tipo: Aplicación web, en Orígenes autorizados pon la URL de tu Build Studio
+4. Copia el Client ID que te da, algo como `123456-abc.apps.googleusercontent.com`
+5. En el código busca esta línea y pégalo ahí:
+const GOOGLE_CLIENT_ID = "TU_CLIENT_ID_DE_GOOGLE_AQUI.apps.googleusercontent.com";
+Y listo, ya te abre el popup real de Google.
+
+*Formas de entrar ahora:*
+- Correo: `admin@humanpro.com` / `123456`
+- Google: Clic en *Continuar con Google* > Elige cuenta
+- Crear cuenta: Botón verde o *Registrarte con Google*
+
+¿Quieres que te haga también el *ingreso con Facebook* al lado del de Google?
